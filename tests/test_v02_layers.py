@@ -56,3 +56,9 @@ def test_reading_orders_are_plural(con):
 
 def test_bifolios(con):
     assert scalar(con, "select count(*) from codicology.bifolios where is_reconstruction") == 2
+
+
+def test_token_spans_inside_their_rows(con):
+    assert scalar(con, "select count(*) from observations.spatial_token_spans") > 50_000
+    assert scalar(con, """select count(*) from observations.spatial_token_spans t join observations.spatial_text_rows r using (row_id)
+                          where t.x0 < r.x0 - 1 or t.x1 > r.x1 + 1""") == 0

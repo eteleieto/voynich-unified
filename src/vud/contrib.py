@@ -27,7 +27,8 @@ CONTRIB_OBS = paths.ROOT / "contrib" / "observations"
 HYP_DIR = paths.HYPOTHESES
 
 TARGET_TYPES = {"page", "canvas", "canvas_region", "locus", "token", "unit", "glyph_annotation",
-                "observation", "folio", "quire", "source"}
+                "observation", "folio", "quire", "source", "text_row", "visual_object", "row_gap"}
+REVIEW_VERDICTS = {"accepted", "rejected", "corrected", "uncertain"}
 OBS_STATUS = {"proposed", "reviewed", "accepted", "rejected", "superseded"}
 HYP_TYPES = {"plaintext_mapping", "language", "cipher_model", "glyph_identity", "segmentation",
              "reading_order", "plant_identification", "illustration_identification", "source_text",
@@ -125,6 +126,26 @@ def add_hypothesis(*, author: str, type: str, title: str, claim: str, falsificat
         "dataset_release": _current_release(), "created_at": _now(),
     })
     return hid
+
+
+def review_machine_observation(*, author: str, target_type: str, target_id: str, verdict: str,
+                               method: str = "visual inspection of vud image overlay",
+                               corrected_xywh=None, corrected_value=None, notes: str | None = None) -> str:
+    """Human/agent review of a machine proposal (spatial alignment, text row, visual object, gap).
+
+    target_type: 'locus' (its row alignment), 'text_row', 'visual_object' or 'row_gap'.
+    verdict: accepted | rejected | corrected | uncertain. For 'corrected' give corrected_xywh (full-res px)
+    and/or corrected_value (e.g. the right row_id). The machine table is never edited; views combine them.
+    """
+    if verdict not in REVIEW_VERDICTS:
+        raise ValueError(f"verdict must be one of {sorted(REVIEW_VERDICTS)}")
+    if verdict == "corrected" and corrected_xywh is None and corrected_value is None:
+        raise ValueError("a correction needs corrected_xywh or corrected_value")
+    return add_observation(author=author, target_type=target_type, target_id=target_id,
+                           property="machine_review", value_text=verdict,
+                           value_json={"corrected_value": corrected_value} if corrected_value is not None else None,
+                           region_xywh=corrected_xywh, method=method, notes=notes,
+                           source_ids=["yale_ms408_iiif_2014"])
 
 
 def update_hypothesis_status(*, author: str, hypothesis_id: str, status: str, result_summary: str) -> str:

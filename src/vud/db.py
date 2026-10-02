@@ -17,6 +17,7 @@ LAYER_DIRS = {
     "derived": paths.DERIVED,
     "hypotheses": paths.DATA / "hypotheses",
     "literature": paths.DATA / "literature",
+    "comparative": paths.DATA / "comparative",
 }
 
 CONVENIENCE = r"""
@@ -58,6 +59,16 @@ select m.page_id, m.seq, c.label as yale_label, c.local_path, c.width, c.height,
        m.region_xywh, m.region_method, m.method as map_method, m.confidence, m.note, c.image_service
 from codicology.canvas_pages m join codicology.canvases c using (seq);
 
+-- Machine locus->row alignments with the most recent review verdict (if any) from observations
+create or replace view main.alignment_reviewed as
+with rv as (
+  select target_id as locus_id, value_text as verdict, value_json, region_xywh, author, created_at,
+         row_number() over (partition by target_id order by created_at desc) as rn
+  from observations.observations where property = 'machine_review' and target_type = 'locus')
+select a.*, rv.verdict as review_verdict, rv.author as reviewed_by, rv.created_at as reviewed_at,
+       rv.region_xywh as corrected_xywh, rv.value_json as correction
+from observations.spatial_locus_alignment a left join rv on rv.locus_id = a.locus_id and rv.rn = 1;
+
 -- Glyph annotations with page names
 create or replace view main.glyphs_located as
 select g.*, list(m.page_id) as candidate_pages
@@ -83,7 +94,7 @@ def build() -> list[str]:
             made.append(f"{schema}.{name}")
     con.sql(CONVENIENCE)
     made += ["main.tokens", "main.locus_readings", "main.alternatives", "main.boundaries",
-             "main.page_images", "main.glyphs_located"]
+             "main.page_images", "main.glyphs_located", "main.alignment_reviewed"]
     con.close()
     return made
 

@@ -132,10 +132,16 @@ def fetch(only: list[str] | None = None, workers: int = 4) -> None:
         sid = src["source_id"]
         if only and sid not in only:
             continue
-        if src["acquisition"] not in ("auto", "iiif"):
+        if src["acquisition"] not in ("auto", "iiif", "harvest"):
             continue
+        if src["acquisition"] == "harvest":
+            from . import harvest
+            have = _manifest_index()
+            found = harvest.HARVESTERS[src["harvester"]](src)
+            src = {**src, "files": (src.get("files") or []) + [
+                {"url": u, "path": p, "md5": m} for u, p, m in found]}
         # two passes for IIIF: manifest first, then the canvases it lists
-        for _pass in range(2 if src["acquisition"] == "iiif" else 1):
+        for _pass in range(2 if src["acquisition"] == "iiif" else 1):  # IIIF: manifest, then canvases
             jobs = _jobs_for(src, _manifest_index())
             if not jobs:
                 continue
@@ -177,3 +183,25 @@ def verify_evidence() -> list[str]:
                     and p.resolve() not in seen:
                 problems.append(f"unregistered file in evidence/: {p}")
     return problems
+
+
+def register_manual(source_id: str) -> list[str]:
+    """Hash + register every not-yet-registered file a human placed in evidence/<source_id>/."""
+    import mimetypes
+    d = paths.evidence_dir(source_id)
+    if not d.exists():
+        raise FileNotFoundError(f"put the files in {d} first")
+    have = {r["path"] for r in registry.read_manifest() if r["source_id"] == source_id}
+    rows = []
+    for p in sorted(d.rglob("*")):
+        if p.is_file() and not p.name.startswith("."):
+            rel = str(p.relative_to(d))
+            if rel in have:
+                continue
+            rows.append({"source_id": source_id, "path": rel, "url": "manual", "sha256": sha256_file(p),
+                         "bytes": p.stat().st_size, "media_type": mimetypes.guess_type(p.name)[0] or "",
+                         "retrieved_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+                         "http_last_modified": "", "http_etag": ""})
+            os.chmod(p, 0o444)
+    _append_manifest(rows)
+    return [r["path"] for r in rows]

@@ -1,0 +1,34 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(uv run vud sql:*)",
+      "Bash(uv run vud page:*)",
+      "Bash(uv run vud locus:*)",
+      "Bash(uv run vud grep:*)",
+      "Bash(uv run vud image:*)",
+      "Bash(uv run vud canvas:*)",
+      "Bash(uv run vud sources:*)",
+      "Bash(uv run vud task:*)",
+      "Bash(uv run vud manual:*)",
+      "Bash(uv run vud build contrib:*)",
+      "Bash(uv run vud build db:*)",
+      "Bash(uv run vud verify:*)",
+      "Bash(uv run pytest:*)",
+      "Bash(uv run python experiments/:*)",
+      "Write(experiments/**)",
+      "Edit(experiments/**)"
+    ],
+    "deny": [
+      "Write(evidence/**)",
+      "Edit(evidence/**)",
+      "Write(data/**)",
+      "Edit(data/**)",
+      "Write(curation/**)",
+      "Edit(curation/**)",
+      "Edit(registry/sources.yaml)",
+      "Write(registry/sources.yaml)",
+      "Edit(contrib/**)",
+      "Edit(hypotheses/**)"
+    ]
+  }
+}

@@ -548,7 +548,7 @@ def process_canvas(job: dict) -> dict:
     comp = components(mask, lab)
     Hm0 = glyph_height(comp)
     interior = leaf_interior(lab, Hm0)
-    out = {k: [] for k in ("components", "rows", "alignment", "gaps", "boundaries", "qa")}
+    out = {k: [] for k in ("components", "rows", "alignment", "gaps", "boundaries", "qa", "tokens")}
     seq = job["seq"]
     for i, c in enumerate(comp):
         out["components"].append((seq, i, *[float(v * inv) for v in c[:4]], float(c[4] * inv * inv),
@@ -609,6 +609,28 @@ def process_canvas(job: dict) -> dict:
                 k = len(tu) - 1
                 qs = _boundary_positions(tu)
                 matched = match_boundaries(qs, gpos, gnorm, len(cl))
+                # token spans: token t runs from the gap before it to the gap after it (machine, unreviewed)
+                if all(m is not None for m in matched):
+                    cuts = [cl[0][0]] + [x for gi in matched for x in (gaps[gi][0], gaps[gi][1])] + [cl[-1][1]]
+                    cxm = comp[members, 0] + comp[members, 2] / 2
+                    span_total = max(1.0, (cl[-1][1] - cl[0][0]) - float(sum(gsize[m] for m in matched)))
+                    tot_units = float(sum(tu)) or 1.0
+                    for ti in range(k + 1):
+                        xa, xb = cuts[2 * ti], cuts[2 * ti + 1]
+                        expected = max(1.0, span_total * tu[ti] / tot_units)
+                        ratio = max(1e-3, (xb - xa)) / expected
+                        sel = members[(cxm >= xa - 0.5) & (cxm <= xb + 0.5)]
+                        if len(sel) == 0:
+                            continue
+                        out["tokens"].append({
+                            "witness_id": w["witness_id"], "locus_id": L["locus_id"], "token_idx": ti,
+                            "row_id": row_ids[ri], "seq": seq, "page_id": pg["page_id"],
+                            "x0": float(comp[sel, 0].min() * inv), "y0": float(comp[sel, 1].min() * inv),
+                            "x1": float((comp[sel, 0] + comp[sel, 2]).max() * inv),
+                            "y1": float((comp[sel, 1] + comp[sel, 3]).max() * inv),
+                            "n_components": int(len(sel)), "alignment_confidence": conf,
+                            "width_ratio": float(ratio),
+                            "token_confidence": float(conf * math.exp(-1.5 * abs(math.log(ratio))))})
                 for bi, (pos, kind) in enumerate(zip(qs, w["boundary_kinds"])):
                     near = int(np.argmin(np.abs(gpos - pos)))
                     gi = matched[bi] if matched[bi] is not None else near

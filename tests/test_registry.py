@@ -10,7 +10,7 @@ def test_registry_entries_complete():
         for k in REQUIRED:
             assert s.get(k), f"{s.get('source_id')}: missing {k}"
         assert s["layer"] in {"E0", "E2", "H", "LIT", "CMP"}
-        assert s["acquisition"] in {"auto", "iiif", "manual", "registered", "deferred"}
+        assert s["acquisition"] in {"auto", "iiif", "harvest", "manual", "registered", "deferred"}
 
 
 def test_every_row_cites_a_registered_source(con):

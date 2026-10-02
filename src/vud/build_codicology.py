@@ -172,6 +172,28 @@ def build_canvases(pages: list[dict]) -> None:
              "object": v} for s, v in binding.items()], "binding_canvases.parquet")
 
 
+def build_other_canvases() -> None:
+    """Canvases of every other IIIF source (MS 408A papers, comparator manuscripts) — one generic table."""
+    have = {(r["source_id"], r["path"]): r for r in registry.read_manifest()}
+    rows = []
+    for src in registry.load_sources():
+        sid = src["source_id"]
+        if src["acquisition"] != "iiif" or sid == YALE:
+            continue
+        man_p = paths.evidence_dir(sid) / "iiif-manifest.json"
+        if not man_p.exists():
+            continue
+        man = json.loads(man_p.read_text())
+        title = (man.get("label", {}).get("none") or man.get("label", {}).get("en") or [sid])[0]
+        for c in fetch.iiif_canvases(man):
+            rel = f"images/{c['seq']:03d}_{c['image_id']}.jpg"
+            a = have.get((sid, rel))
+            rows.append({**c, "source_id": sid, "layer": src["layer"], "item_title": title,
+                         "local_path": f"evidence/{sid}/{rel}" if a else None,
+                         "sha256": a["sha256"] if a else None})
+    _write(rows, "other_canvases.parquet")
+
+
 def build_materials() -> None:
     doc = yaml.safe_load((CURATION / "material_evidence.yaml").read_text())
     mc = doc["mccrone_samples"]
@@ -204,5 +226,6 @@ def build() -> dict:
     build_folios(pages)
     build_bifolios(pages)
     build_canvases(pages)
+    build_other_canvases()
     build_materials()
     return {"pages": len(pages)}

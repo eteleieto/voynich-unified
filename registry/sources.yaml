@@ -262,6 +262,242 @@ sources:
       size exactly, so geometry registers directly onto yale_ms408_iiif_2014 canvases. The 1.9 GB image tarball
       is intentionally not fetched (duplicates Yale masters).
 
+  # ------------------------------------------- Beinecke MS 408A: provenance & research files (Voynich papers)
+  - source_id: yale_ms408a_marci_letter
+    name: "Beinecke MS 408A — Johannes Marcus Marci of Cronland, autograph letter (1665/1666) presenting the MS to Kircher"
+    creator: Wilfrid M. and Ethel L. Voynich collection; digitized by Yale University Library
+    version: "IIIF manifest 2041454 as retrieved"
+    layer: E0
+    kind: historical_document_images
+    acquisition: iiif
+    canonical_location: https://collections.library.yale.edu/catalog/2041454
+    license: "Yale Library; rights statement in manifest"
+    files:
+      - {url: "https://collections.library.yale.edu/manifests/2041454", path: iiif-manifest.json}
+    notes: >
+      Part of 'Wilfred M. Voynich and Ethel Voynich provenance and research files on the Cipher (Voynich)
+      manuscript' (finding aid: https://hdl.handle.net/10079/fa/beinecke.voynichprovenance).
+      Secondary/historical evidence; interpretations in these papers (e.g. plant IDs, Bacon attribution) are H-layer claims.
+
+  - source_id: yale_ms408a_prov_marci
+    name: "Beinecke MS 408A — Provenance files — Marcus Marci"
+    creator: Wilfrid M. and Ethel L. Voynich collection; digitized by Yale University Library
+    version: "IIIF manifest 32577170 as retrieved"
+    layer: E0
+    kind: historical_document_images
+    acquisition: iiif
+    canonical_location: https://collections.library.yale.edu/catalog/32577170
+    license: "Yale Library; rights statement in manifest"
+    files:
+      - {url: "https://collections.library.yale.edu/manifests/32577170", path: iiif-manifest.json}
+    notes: >
+      Part of 'Wilfred M. Voynich and Ethel Voynich provenance and research files on the Cipher (Voynich)
+      manuscript' (finding aid: https://hdl.handle.net/10079/fa/beinecke.voynichprovenance).
+      Secondary/historical evidence; interpretations in these papers (e.g. plant IDs, Bacon attribution) are H-layer claims.
+
+  - source_id: yale_ms408a_prov_prague_archives
+    name: "Beinecke MS 408A — Provenance files — Prague archives"
+    creator: Wilfrid M. and Ethel L. Voynich collection; digitized by Yale University Library
+    version: "IIIF manifest 32577198 as retrieved"
+    layer: E0
+    kind: historical_document_images
+    acquisition: iiif
+    canonical_location: https://collections.library.yale.edu/catalog/32577198
+    license: "Yale Library; rights statement in manifest"
+    files:
+      - {url: "https://collections.library.yale.edu/manifests/32577198", path: iiif-manifest.json}
+    notes: >
+      Part of 'Wilfred M. Voynich and Ethel Voynich provenance and research files on the Cipher (Voynich)
+      manuscript' (finding aid: https://hdl.handle.net/10079/fa/beinecke.voynichprovenance).
+      Secondary/historical evidence; interpretations in these papers (e.g. plant IDs, Bacon attribution) are H-layer claims.
+
+  - source_id: yale_ms408a_prov_general
+    name: "Beinecke MS 408A — Provenance files — general"
+    creator: Wilfrid M. and Ethel L. Voynich collection; digitized by Yale University Library
+    version: "IIIF manifest 32577044 as retrieved"
+    layer: E0
+    kind: historical_document_images
+    acquisition: iiif
+    canonical_location: https://collections.library.yale.edu/catalog/32577044
+    license: "Yale Library; rights statement in manifest"
+    files:
+      - {url: "https://collections.library.yale.edu/manifests/32577044", path: iiif-manifest.json}
+    notes: >
+      Part of 'Wilfred M. Voynich and Ethel Voynich provenance and research files on the Cipher (Voynich)
+      manuscript' (finding aid: https://hdl.handle.net/10079/fa/beinecke.voynichprovenance).
+      Secondary/historical evidence; interpretations in these papers (e.g. plant IDs, Bacon attribution) are H-layer claims.
+
+  - source_id: yale_ms408a_prov_john_dee
+    name: "Beinecke MS 408A — Provenance files — John Dee"
+    creator: Wilfrid M. and Ethel L. Voynich collection; digitized by Yale University Library
+    version: "IIIF manifest 32577144 as retrieved"
+    layer: E0
+    kind: historical_document_images
+    acquisition: iiif
+    canonical_location: https://collections.library.yale.edu/catalog/32577144
+    license: "Yale Library; rights statement in manifest"
+    files:
+      - {url: "https://collections.library.yale.edu/manifests/32577144", path: iiif-manifest.json}
+    notes: >
+      Part of 'Wilfred M. Voynich and Ethel Voynich provenance and research files on the Cipher (Voynich)
+      manuscript' (finding aid: https://hdl.handle.net/10079/fa/beinecke.voynichprovenance).
+      Secondary/historical evidence; interpretations in these papers (e.g. plant IDs, Bacon attribution) are H-layer claims.
+
+  - source_id: yale_ms408a_prov_tepenecz
+    name: "Beinecke MS 408A — Provenance files — Jacobus de Tepenecz"
+    creator: Wilfrid M. and Ethel L. Voynich collection; digitized by Yale University Library
+    version: "IIIF manifest 32577155 as retrieved"
+    layer: E0
+    kind: historical_document_images
+    acquisition: iiif
+    canonical_location: https://collections.library.yale.edu/catalog/32577155
+    license: "Yale Library; rights statement in manifest"
+    files:
+      - {url: "https://collections.library.yale.edu/manifests/32577155", path: iiif-manifest.json}
+    notes: >
+      Part of 'Wilfred M. Voynich and Ethel Voynich provenance and research files on the Cipher (Voynich)
+      manuscript' (finding aid: https://hdl.handle.net/10079/fa/beinecke.voynichprovenance).
+      Secondary/historical evidence; interpretations in these papers (e.g. plant IDs, Bacon attribution) are H-layer claims.
+
+  - source_id: yale_ms408a_collation_notes
+    name: "Beinecke MS 408A — Collation — various notes and versions"
+    creator: Wilfrid M. and Ethel L. Voynich collection; digitized by Yale University Library
+    version: "IIIF manifest 32576985 as retrieved"
+    layer: E0
+    kind: historical_document_images
+    acquisition: iiif
+    canonical_location: https://collections.library.yale.edu/catalog/32576985
+    license: "Yale Library; rights statement in manifest"
+    files:
+      - {url: "https://collections.library.yale.edu/manifests/32576985", path: iiif-manifest.json}
+    notes: >
+      Part of 'Wilfred M. Voynich and Ethel Voynich provenance and research files on the Cipher (Voynich)
+      manuscript' (finding aid: https://hdl.handle.net/10079/fa/beinecke.voynichprovenance).
+      Secondary/historical evidence; interpretations in these papers (e.g. plant IDs, Bacon attribution) are H-layer claims.
+
+  - source_id: yale_ms408a_ciphers
+    name: "Beinecke MS 408A — Research files — Ciphers"
+    creator: Wilfrid M. and Ethel L. Voynich collection; digitized by Yale University Library
+    version: "IIIF manifest 32576524 as retrieved"
+    layer: E0
+    kind: historical_document_images
+    acquisition: iiif
+    canonical_location: https://collections.library.yale.edu/catalog/32576524
+    license: "Yale Library; rights statement in manifest"
+    files:
+      - {url: "https://collections.library.yale.edu/manifests/32576524", path: iiif-manifest.json}
+    notes: >
+      Part of 'Wilfred M. Voynich and Ethel Voynich provenance and research files on the Cipher (Voynich)
+      manuscript' (finding aid: https://hdl.handle.net/10079/fa/beinecke.voynichprovenance).
+      Secondary/historical evidence; interpretations in these papers (e.g. plant IDs, Bacon attribution) are H-layer claims.
+
+  - source_id: yale_ms408a_roger_bacon
+    name: "Beinecke MS 408A — Research files — Roger Bacon"
+    creator: Wilfrid M. and Ethel L. Voynich collection; digitized by Yale University Library
+    version: "IIIF manifest 32576611 as retrieved"
+    layer: E0
+    kind: historical_document_images
+    acquisition: iiif
+    canonical_location: https://collections.library.yale.edu/catalog/32576611
+    license: "Yale Library; rights statement in manifest"
+    files:
+      - {url: "https://collections.library.yale.edu/manifests/32576611", path: iiif-manifest.json}
+    notes: >
+      Part of 'Wilfred M. Voynich and Ethel Voynich provenance and research files on the Cipher (Voynich)
+      manuscript' (finding aid: https://hdl.handle.net/10079/fa/beinecke.voynichprovenance).
+      Secondary/historical evidence; interpretations in these papers (e.g. plant IDs, Bacon attribution) are H-layer claims.
+
+  - source_id: yale_ms408a_plant_ids_ethel
+    name: "Beinecke MS 408A — Plant drawings, identifications by Ethel L. Voynich"
+    creator: Wilfrid M. and Ethel L. Voynich collection; digitized by Yale University Library
+    version: "IIIF manifest 32576679 as retrieved"
+    layer: E0
+    kind: historical_document_images
+    acquisition: iiif
+    canonical_location: https://collections.library.yale.edu/catalog/32576679
+    license: "Yale Library; rights statement in manifest"
+    files:
+      - {url: "https://collections.library.yale.edu/manifests/32576679", path: iiif-manifest.json}
+    notes: >
+      Part of 'Wilfred M. Voynich and Ethel Voynich provenance and research files on the Cipher (Voynich)
+      manuscript' (finding aid: https://hdl.handle.net/10079/fa/beinecke.voynichprovenance).
+      Secondary/historical evidence; interpretations in these papers (e.g. plant IDs, Bacon attribution) are H-layer claims.
+
+  - source_id: yale_ms408a_thorndike_notes
+    name: "Beinecke MS 408A — Ethel L. Voynich's Thorndike notes"
+    creator: Wilfrid M. and Ethel L. Voynich collection; digitized by Yale University Library
+    version: "IIIF manifest 32576813 as retrieved"
+    layer: E0
+    kind: historical_document_images
+    acquisition: iiif
+    canonical_location: https://collections.library.yale.edu/catalog/32576813
+    license: "Yale Library; rights statement in manifest"
+    files:
+      - {url: "https://collections.library.yale.edu/manifests/32576813", path: iiif-manifest.json}
+    notes: >
+      Part of 'Wilfred M. Voynich and Ethel Voynich provenance and research files on the Cipher (Voynich)
+      manuscript' (finding aid: https://hdl.handle.net/10079/fa/beinecke.voynichprovenance).
+      Secondary/historical evidence; interpretations in these papers (e.g. plant IDs, Bacon attribution) are H-layer claims.
+
+  - source_id: yale_ms408a_correspondence
+    name: "Beinecke MS 408A — Correspondence"
+    creator: Wilfrid M. and Ethel L. Voynich collection; digitized by Yale University Library
+    version: "IIIF manifest 2041525 as retrieved"
+    layer: E0
+    kind: historical_document_images
+    acquisition: iiif
+    canonical_location: https://collections.library.yale.edu/catalog/2041525
+    license: "Yale Library; rights statement in manifest"
+    files:
+      - {url: "https://collections.library.yale.edu/manifests/2041525", path: iiif-manifest.json}
+    notes: >
+      Part of 'Wilfred M. Voynich and Ethel Voynich provenance and research files on the Cipher (Voynich)
+      manuscript' (finding aid: https://hdl.handle.net/10079/fa/beinecke.voynichprovenance).
+      Secondary/historical evidence; interpretations in these papers (e.g. plant IDs, Bacon attribution) are H-layer claims.
+
+  - source_id: yale_ms408a_photos_wmv
+    name: "Beinecke MS 408A — Photographs of Wilfrid M. Voynich (filed with scrapbook)"
+    creator: Wilfrid M. and Ethel L. Voynich collection; digitized by Yale University Library
+    version: "IIIF manifest 2014917 as retrieved"
+    layer: E0
+    kind: historical_document_images
+    acquisition: iiif
+    canonical_location: https://collections.library.yale.edu/catalog/2014917
+    license: "Yale Library; rights statement in manifest"
+    files:
+      - {url: "https://collections.library.yale.edu/manifests/2014917", path: iiif-manifest.json}
+    notes: >
+      Part of 'Wilfred M. Voynich and Ethel Voynich provenance and research files on the Cipher (Voynich)
+      manuscript' (finding aid: https://hdl.handle.net/10079/fa/beinecke.voynichprovenance).
+      Secondary/historical evidence; interpretations in these papers (e.g. plant IDs, Bacon attribution) are H-layer claims.
+
+  - source_id: yale_ms408a_finding_aid
+    name: Finding aid — Voynich provenance and research files (Beinecke)
+    creator: Beinecke Rare Book & Manuscript Library
+    version: "as retrieved"
+    layer: LIT
+    kind: finding_aid
+    acquisition: auto
+    canonical_location: https://hdl.handle.net/10079/fa/beinecke.voynichprovenance
+    license: Yale Library
+    files:
+      - {url: "https://archives.yale.edu/repositories/11/resources/13090", path: finding_aid.html}
+
+  - source_id: cmp_yale_cushing_ms3_opera_medicinalia
+    name: "Opera medicinalia (Mesue et al.), Northern Italy, 1448 — Cushing/Whitney Medical Library MS 3 (ex-Voynich)"
+    creator: Yale University Library (digitization); scribes unidentified
+    version: "IIIF manifest 16960283 as retrieved"
+    layer: CMP
+    kind: comparator_manuscript_images
+    acquisition: iiif
+    canonical_location: https://collections.library.yale.edu/catalog/16960283
+    license: "Yale Library Open Access"
+    files:
+      - {url: "https://collections.library.yale.edu/manifests/16960283", path: iiif-manifest.json}
+    notes: >
+      A dated (1448), illuminated Latin medical manuscript from northern Italy that passed through Wilfrid
+      Voynich's hands — contemporary with the radiocarbon window. Visual/palaeographic/codicological comparator.
+
   # ------------------------------------------------------- material / scientific
   - source_id: mccrone_2009
     name: "Materials Analysis of the Voynich Manuscript (McCrone Associates report to the Beinecke)"
@@ -300,29 +536,36 @@ sources:
       data/codicology/material_evidence.parquet from the secondary source captured here, with that
       provenance recorded per row.
 
-  - source_id: msi_davis_2024
-    name: Multispectral imaging of f1r (and others), Beinecke / L. F. Davis
-    creator: Beinecke Library; Lisa Fagin Davis
-    version: "2024 (blog/publication images)"
+  - source_id: msi_lazarus_2014_davis_2024
+    name: Multispectral images (Lazarus Project 2014) as processed and published by L. F. Davis (2024)
+    creator: The Lazarus Project (imaging, 2014); Lisa Fagin Davis (processing/publication, 2024-09-08)
+    version: "images as published in the blog post of 2024-09-08"
     layer: E0
-    kind: scientific_imaging
-    acquisition: registered
-    canonical_location: https://manuscriptroadtrip.wordpress.com/
-    license: n/a
+    kind: scientific_imaging_derivative
+    acquisition: auto
+    canonical_location: https://manuscriptroadtrip.wordpress.com/2024/09/08/multispectral-imaging-and-the-voynich-manuscript/
+    license: "© the authors; published for scholarly discussion. Cite Davis 2024 / Lazarus Project."
+    files:
+      - {url: "https://manuscriptroadtrip.wordpress.com/2024/09/08/multispectral-imaging-and-the-voynich-manuscript/", path: davis_2024_msi_post.html}
+      - {url: "https://manuscriptroadtrip.wordpress.com/wp-content/uploads/2024/09/voynich_01r_bands01-12_rf_cal_r6g4b1-1.jpg", path: voynich_01r_bands01-12_rf_cal_r6g4b1.jpg}
+      - {url: "https://manuscriptroadtrip.wordpress.com/wp-content/uploads/2024/09/voynich_070v_bands01-22_rffl_cal_med3_r14g16b18_fl-b.jpg", path: voynich_070v_bands01-22_rffl_cal_med3_r14g16b18_fl-b.jpg}
+      - {url: "https://manuscriptroadtrip.wordpress.com/wp-content/uploads/2024/09/voynich_102v1_psc.jpg", path: voynich_102v1_psc.jpg}
+      - {url: "https://manuscriptroadtrip.wordpress.com/wp-content/uploads/2024/09/msi-results3.jpg", path: msi-results3.jpg}
+      - {url: "https://manuscriptroadtrip.wordpress.com/wp-content/uploads/2024/09/1r-vs-marci-12.09.1640.png", path: 1r-vs-marci.png}
+      - {url: "https://manuscriptroadtrip.wordpress.com/wp-content/uploads/2024/09/marci-hand.jpg", path: marci-hand.jpg}
+      - {url: "https://manuscriptroadtrip.wordpress.com/wp-content/uploads/2024/09/screenshot-675.jpg", path: screenshot-675.jpg}
+      - {url: "https://manuscriptroadtrip.wordpress.com/wp-content/uploads/2024/09/screenshot-678-1.jpg", path: screenshot-678-1.jpg}
+      - {url: "https://manuscriptroadtrip.wordpress.com/wp-content/uploads/2024/09/screenshot-679.jpg", path: screenshot-679.jpg}
+      - {url: "https://manuscriptroadtrip.wordpress.com/wp-content/uploads/2024/09/screenshot-684.png", path: screenshot-684.png}
+      - {url: "https://manuscriptroadtrip.wordpress.com/wp-content/uploads/2024/09/screenshot-691.png", path: screenshot-691.png}
+      - {url: "https://manuscriptroadtrip.wordpress.com/wp-content/uploads/2024/09/screenshot-696.png", path: screenshot-696.png}
+      - {url: "https://manuscriptroadtrip.wordpress.com/wp-content/uploads/2024/09/screenshot-698.png", path: screenshot-698.png}
+      - {url: "https://manuscriptroadtrip.wordpress.com/wp-content/uploads/2024/09/screenshot-701.png", path: screenshot-701.png}
     notes: >
-      Raw MSI cubes not publicly released. Registered so its absence is explicit. If obtained, images
-      must be registered against yale_ms408_iiif_2014 canvases via an explicit transform record.
-
-  - source_id: beinecke_msi_2014
-    name: Beinecke multispectral / additional scientific examination (reported)
-    creator: Beinecke Library
-    version: n/a
-    layer: E0
-    kind: scientific_imaging
-    acquisition: registered
-    canonical_location: https://beinecke.library.yale.edu/beinecke/collections/beinecke-cipher-voynich-manuscript
-    license: n/a
-    notes: Reported by Yale; raw data not public.
+      Processed false-colour composites and crops, NOT raw band images. Pages imaged in 2014: f1r, f8r, f17r,
+      f26r, f47r, f70v1, f71r, f93r, f102v1, f116v. The raw MSI cubes must be requested from the Beinecke
+      (see docs/MANUAL_DOWNLOADS.md). Davis's readings of the f1r marginalia are her interpretations (cite, but
+      treat as E2/H, not as pixels). Not yet registered geometrically onto the Yale canvases.
 
   # ------------------------------------------------------------- literature
   - source_id: dimperio_1978
@@ -365,10 +608,43 @@ sources:
     version: "2010 release"
     layer: LIT
     kind: index
-    acquisition: registered
+    acquisition: manual
     canonical_location: https://www.nsa.gov/portals/75/documents/news-features/declassified-documents/voynich/nsa-index-for-attempts-to-decipher-the-voynich-manuscript.pdf
     license: "US Government work (public domain)"
     notes: nsa.gov blocks non-browser clients and no Wayback snapshot exists; download manually in a browser into evidence/nsa_voynich_index/ and switch to manual.
+
+  - source_id: nsa_voynich_collection
+    name: NSA declassified Voynich documents (Friedman collection items, 1976 seminar proceedings, etc.)
+    creator: National Security Agency
+    version: "as downloaded by hand"
+    layer: LIT
+    kind: document_collection
+    acquisition: manual
+    canonical_location: https://www.nsa.gov/Helpful-Links/NSA-FOIA/Declassification-Transparency-Initiatives/Historical-Releases/
+    license: "US Government work (public domain)"
+    notes: nsa.gov refuses scripted downloads. Save any Voynich-related PDFs here by hand, then `vud register-manual nsa_voynich_collection`.
+
+  - source_id: beinecke_ms408_tiffs
+    name: Beinecke MS 408 archival TIFF masters (lossless)
+    creator: Beinecke Rare Book & Manuscript Library
+    version: "as supplied by Beinecke reproduction services"
+    layer: E0
+    kind: image_set
+    acquisition: manual
+    canonical_location: https://beinecke.library.yale.edu/research-teaching/collections-research-services/reproductions
+    license: per Beinecke terms
+    notes: The IIIF JPEGs are lossy. Lossless TIFFs (same pixel grid, so all geometry carries over) must be requested from Beinecke.
+
+  - source_id: lazarus_msi_raw_2014
+    name: Raw multispectral band images (Lazarus Project, 2014; 10 pages)
+    creator: The Lazarus Project / Beinecke Library
+    version: "as supplied"
+    layer: E0
+    kind: scientific_imaging
+    acquisition: manual
+    canonical_location: https://beinecke.library.yale.edu/
+    license: per supplier
+    notes: Request from the Beinecke (pages f1r, f8r, f17r, f26r, f47r, f70v1, f71r, f93r, f102v1, f116v). Processed composites already in msi_lazarus_2014_davis_2024.
 
   # ------------------------------------------------- hypotheses seen in the wild (H)
   - source_id: zenodo_greek_eva2_2025
@@ -383,6 +659,84 @@ sources:
     notes: Example of an external decipherment claim. If ingested, goes ONLY under hypotheses/.
 
   # ---------------------------------------------------------- comparator corpora
+  # kind tags: natural_language | ciphertext | cipher_plaintext | translation | pseudo_text | manuscript_index
+  - source_id: cmp_corpus_corporum
+    name: "Corpus Corporum: scientific/medical Latin (corpus 4), encyclopaedias (20), Libri sacri (1) — TEI XML"
+    creator: University of Zurich (Corpus Corporum, P. Roelli) and the texts' original providers
+    version: "harvested; per-text idno recorded"
+    layer: CMP
+    kind: comparator_corpus
+    acquisition: harvest
+    harvester: corpus_corporum
+    params: {corpus_nrs: [4, 20, 1]}
+    canonical_location: https://mlat.uzh.ch/
+    license: "Per text; only texts the site marks accessible (public domain / openly licensed) are downloaded"
+    notes: Medieval Latin science and medicine is the most plausible register for a herbal/astrological/balneological manuscript; the Vulgate gives a large standard Latin baseline.
+
+  - source_id: cmp_gutenberg_vernaculars
+    name: Medieval vernacular control texts (Project Gutenberg)
+    creator: Project Gutenberg volunteers (editions as stated in each file)
+    version: "as retrieved"
+    layer: CMP
+    kind: comparator_corpus
+    acquisition: auto
+    canonical_location: https://www.gutenberg.org/
+    license: "Public domain in the USA; Project Gutenberg licence header retained in each file"
+    files:
+      - {url: "https://www.gutenberg.org/cache/epub/1012/pg1012.txt", path: pg1012_dante_divina_commedia_it.txt}
+      - {url: "https://www.gutenberg.org/cache/epub/22120/pg22120.txt", path: pg22120_chaucer_canterbury_enm.txt}
+      - {url: "https://www.gutenberg.org/cache/epub/14915/pg14915.txt", path: pg14915_nibelungenlied_de.txt}
+      - {url: "https://www.gutenberg.org/cache/epub/16816/pg16816.txt", path: pg16816_roman_de_la_rose_I_fr.txt}
+
+  - source_id: cmp_copiale_cipher
+    name: Copiale cipher — transcription, decipherment, translation (known-plaintext historical cipher)
+    creator: K. Knight, B. Megyesi, C. Schaefer (Stockholm / Uppsala / USC)
+    version: "files as published by Stockholm University"
+    layer: CMP
+    kind: comparator_cipher
+    acquisition: auto
+    canonical_location: https://www.su.se/english/research/research-catalogue/research-projects/d/decipherment-of-historical-manuscripts/the-copiale-cipher
+    license: "Published for research; cite Knight, Megyesi & Schaefer 2011"
+    files:
+      - {url: "https://www.su.se/download/18.4347052c19c47d1ff802df6/1771944938612/copiale-master-transcription.txt", path: copiale-master-transcription.txt}
+      - {url: "https://www.su.se/download/18.4347052c19c47d1ff802df8/1771944998723/copiale-master-deciphered.txt", path: copiale-master-deciphered.txt}
+      - {url: "https://www.su.se/download/18.4347052c19c47d1ff802df4/1771944422949/copiale-transcription%20(1).txt", path: copiale-transcription.txt}
+      - {url: "https://www.su.se/download/18.4347052c19c47d1ff802df0/1771943955387/copiale-deciphered.txt", path: copiale-deciphered.txt}
+      - {url: "https://www.su.se/download/18.4347052c19c47d1ff802df2/1771944176575/copiale-translation.txt", path: copiale-translation.txt}
+      - {url: "https://aclanthology.org/W11-1202.pdf", path: knight_megyesi_schaefer_2011.pdf}
+
+  - source_id: cmp_timm_selfcitation
+    name: Self-citation text generator (Timm & Schinner) — generated pseudo-text + generator
+    creator: Torsten Timm, Andreas Schinner
+    version: "GitHub TorstenTimm/SelfCitationTextgenerator@master as retrieved"
+    layer: CMP
+    kind: comparator_pseudo_text
+    acquisition: auto
+    canonical_location: https://github.com/TorstenTimm/SelfCitationTextgenerator
+    license: MIT
+    files:
+      - {url: "https://raw.githubusercontent.com/TorstenTimm/SelfCitationTextgenerator/master/graphs/GeneratedText/generated_text.txt", path: generated_text.txt}
+      - {url: "https://raw.githubusercontent.com/TorstenTimm/SelfCitationTextgenerator/master/PROPERTIES.md", path: PROPERTIES.md}
+      - {url: "https://raw.githubusercontent.com/TorstenTimm/SelfCitationTextgenerator/master/LICENSE", path: LICENSE}
+      - {url: "https://raw.githubusercontent.com/TorstenTimm/SelfCitationTextgenerator/master/executable/text-generator.jar", path: text-generator.jar}
+      - {url: "https://raw.githubusercontent.com/TorstenTimm/SelfCitationTextgenerator/master/executable/conf.properties", path: conf.properties}
+    notes: The canonical 'meaningless but Voynich-like' control. The generator can produce more samples (Java).
+
+  - source_id: cmp_digital_scriptorium
+    name: Digital Scriptorium search index (herbal / medical / astronomical / alchemical / cipher MSS)
+    creator: Digital Scriptorium
+    version: "search responses as retrieved"
+    layer: CMP
+    kind: comparator_manuscript_index
+    acquisition: harvest
+    harvester: digital_scriptorium
+    params:
+      queries: [herbal, herbarium, "medical recipes", medicina, astronomy, astrology, zodiac, alchemy, balneis, baths, cipher, "secret writing", "de virtutibus herbarum", "tacuinum sanitatis", "regimen sanitatis"]
+      max_pages: 5
+    canonical_location: https://search.digital-scriptorium.org/
+    license: "Metadata CC0 (Digital Scriptorium)"
+    notes: Finding aid only (id, shelfmark, title, place, date, catalogue link). Images are not harvested.
+
   - source_id: cmp_curious_cures
     name: Curious Cures in Cambridge Libraries (medieval medical recipes)
     creator: Cambridge University Library et al.
@@ -392,15 +746,7 @@ sources:
     acquisition: deferred
     canonical_location: https://cudl.lib.cam.ac.uk/collections/curiouscures
     license: per item
-  - source_id: cmp_corpus_corporum
-    name: Corpus Corporum (Latin texts, TEI)
-    creator: University of Zurich
-    version: n/a
-    layer: CMP
-    kind: comparator_corpus
-    acquisition: deferred
-    canonical_location: https://www.mlat.uzh.ch/
-    license: per text
+    notes: Recipe transcriptions are browsable per item; no bulk export was found. Candidate for a targeted harvester.
   - source_id: cmp_biblissima
     name: Biblissima+ IIIF collections portal
     creator: Biblissima+
@@ -409,13 +755,4 @@ sources:
     kind: comparator_index
     acquisition: deferred
     canonical_location: https://iiif.biblissima.fr/collections/
-    license: per item
-  - source_id: cmp_digital_scriptorium
-    name: Digital Scriptorium (US medieval manuscript union catalog, IIIF)
-    creator: Digital Scriptorium
-    version: n/a
-    layer: CMP
-    kind: comparator_index
-    acquisition: deferred
-    canonical_location: https://search.digital-scriptorium.org/
     license: per item

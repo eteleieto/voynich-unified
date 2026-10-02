@@ -25,14 +25,14 @@ def cmd_fetch(a):
 
 def cmd_build(a):
     from . import (build_archetype, build_codicology, build_common, build_derived, build_legacy,
-                   build_literature, build_orders, build_spatial, build_transcriptions, build_visual,
-                   contrib, db, registry)
+                   build_comparators, build_literature, build_orders, build_spatial, build_transcriptions,
+                   build_visual, contrib, db, registry)
     steps = {
         "registry": registry.build, "transcriptions": build_transcriptions.build,
         "legacy": build_legacy.build,
         "codicology": build_codicology.build, "archetype": build_archetype.build,
         "common": build_common.build, "spatial": build_spatial.build, "visual": build_visual.build,
-        "derived": build_derived.build, "orders": build_orders.build, "literature": build_literature.build,
+        "derived": build_derived.build, "orders": build_orders.build, "comparators": build_comparators.build, "literature": build_literature.build,
         "contrib": contrib.build, "db": db.build,
     }
     todo = list(steps) if a.step == "all" else [a.step]
@@ -244,6 +244,108 @@ def cmd_docs(a):
     print(paths.ROOT / "docs" / "SCHEMA.md")
 
 
+def cmd_canvas(a):
+    """Render any IIIF canvas of any source (MS 408A papers, comparator MSS, or MS 408 by seq)."""
+    from PIL import Image
+    con = _con()
+    if a.source_id == "yale_ms408_iiif_2014":
+        row = con.sql("select local_path, label from codicology.canvases where seq = ?", params=[a.seq]).fetchone()
+    else:
+        row = con.sql("select local_path, label from codicology.other_canvases where source_id = ? and seq = ?",
+                      params=[a.source_id, a.seq]).fetchone()
+    if not row:
+        sys.exit("no such canvas (list them: vud sql \"select source_id, seq, label from codicology.other_canvases\")")
+    if not row[0]:
+        sys.exit("canvas not downloaded yet: run `vud fetch`")
+    im = Image.open(paths.ROOT / row[0])
+    if a.region:
+        x, y, w, h = [int(v) for v in a.region.split(",")]
+        im = im.crop((x, y, x + w, y + h))
+    im.thumbnail((a.max, a.max))
+    VIEWS.mkdir(exist_ok=True)
+    out = VIEWS / f"{a.source_id}_seq{a.seq}{'_' + a.region.replace(',', '-') if a.region else ''}.jpg"
+    im.convert("RGB").save(out, quality=88)
+    print(out, "|", row[1])
+
+
+def cmd_manual(a):
+    """Status of sources that need a human (manual) or are known-but-unobtained (registered)."""
+    from . import registry
+    have = {}
+    for r in registry.read_manifest():
+        have[r["source_id"]] = have.get(r["source_id"], 0) + 1
+    for s in registry.load_sources():
+        if s["acquisition"] in ("manual", "registered"):
+            n = have.get(s["source_id"], 0)
+            state = f"{n} file(s) registered" if n else "MISSING"
+            print(f"[{s['acquisition']:10s}] {s['source_id']:34s} {state:22s} {s['name']}")
+    print("\nInstructions: docs/MANUAL_DOWNLOADS.md   then: uv run vud register-manual <source_id>", file=sys.stderr)
+
+
+def cmd_register_manual(a):
+    from . import fetch
+    added = fetch.register_manual(a.source_id)
+    print(f"registered {len(added)} file(s): {added}")
+
+
+def cmd_task(a):
+    from . import tasks
+    if a.action == "next":
+        tid = tasks.claim_next(a.kind, a.author)
+        print(tid or f"no open {a.kind} tasks")
+    elif a.action == "claim":
+        print("claimed" if tasks.claim(a.task_id, a.author) else "already claimed by someone else")
+    elif a.action == "done":
+        tasks.complete(a.task_id, a.author, a.summary or ""); print("ok")
+    else:
+        for c in tasks.board()[: a.limit]:
+            print(f"{c['at']}  {c['status']:8s} {c['author']:16s} {c['task_id']}  {c.get('summary', '')[:80]}")
+
+
+def cmd_gallery(a):
+    """Contact sheet of the actual ink of every token matching a regex (machine token spans)."""
+    from PIL import Image, ImageDraw
+    con = _con()
+    rows = con.sql("""
+        select s.locus_id, s.token_idx, t.text, c.local_path, s.x0, s.y0, s.x1, s.y1, s.token_confidence
+        from observations.spatial_token_spans s
+        join annotations.tokens t on t.witness_id = s.witness_id and t.locus_id = s.locus_id and t.token_idx = s.token_idx
+        join codicology.canvases c on c.seq = s.seq
+        where s.witness_id = ? and regexp_full_match(t.text, ?) and s.token_confidence >= ?
+        order by s.token_confidence desc, s.locus_id limit ?""",
+                   params=[a.witness, a.pattern, a.min_conf, a.limit]).fetchall()
+    if not rows:
+        sys.exit("no aligned tokens match")
+    th, pad, cache, tiles = a.height, 6, {}, []
+    for lid, ti, text, path, x0, y0, x1, y1, conf in rows:
+        if path not in cache:
+            cache = {path: Image.open(paths.ROOT / path)}
+        im = cache[path].crop((int(x0) - pad, int(y0) - pad, int(x1) + pad, int(y1) + pad))
+        im = im.resize((max(1, int(im.width * th / max(1, im.height))), th))
+        tile = Image.new("RGB", (max(im.width, 150), th + 18), "white")
+        tile.paste(im, (0, 0))
+        ImageDraw.Draw(tile).text((2, th + 2), f"{lid}#{ti} {text} ({conf:.2f})", fill=(200, 0, 0))
+        tiles.append(tile)
+    W = 1800
+    lines, cur, w = [], [], 0
+    for t in tiles:
+        if w + t.width > W and cur:
+            lines.append(cur); cur, w = [], 0
+        cur.append(t); w += t.width + 8
+    lines.append(cur)
+    sheet = Image.new("RGB", (W, sum(max(t.height for t in l) + 8 for l in lines)), "white")
+    y = 0
+    for l in lines:
+        x = 0
+        for t in l:
+            sheet.paste(t, (x, y)); x += t.width + 8
+        y += max(t.height for t in l) + 8
+    VIEWS.mkdir(exist_ok=True)
+    out = VIEWS / f"gallery_{a.witness.replace(':', '-')}_{re.sub(r'[^A-Za-z0-9]+', '_', a.pattern)[:40]}.jpg"
+    sheet.save(out, quality=88)
+    print(out, f"({len(tiles)} tokens; machine spans, sorted by token_confidence)")
+
+
 def cmd_release(a):
     """Freeze: hash every built table + the evidence manifest into releases/VUD-<version>.json."""
     def h(p: Path) -> str:
@@ -299,7 +401,23 @@ def main(argv=None):
     s.add_argument("--boundaries", metavar="WITNESS", help="overlay a witness's word boundaries on matched gaps "
                    "(blue '.', orange ',', red drawing breaks); implies --rows")
     s.set_defaults(f=cmd_image)
+    s = sp.add_parser("gallery", help="contact sheet of the ink of every token matching a regex")
+    s.add_argument("pattern"); s.add_argument("--witness", "-w", default="zl3b")
+    s.add_argument("--limit", type=int, default=60); s.add_argument("--height", type=int, default=70)
+    s.add_argument("--min-conf", type=float, default=0.5, help="min token_confidence"); s.set_defaults(f=cmd_gallery)
+    s = sp.add_parser("canvas", help="render any IIIF canvas of any source (e.g. the Marci letter)")
+    s.add_argument("source_id"); s.add_argument("seq", type=int); s.add_argument("--region")
+    s.add_argument("--max", type=int, default=1600); s.set_defaults(f=cmd_canvas)
     sp.add_parser("docs", help="regenerate docs/SCHEMA.md").set_defaults(f=cmd_docs)
+    sp.add_parser("manual", help="status of sources that need a human download").set_defaults(f=cmd_manual)
+    s = sp.add_parser("task", help="shared work queue: next | claim | done | board")
+    s.add_argument("action", choices=["next", "claim", "done", "board"])
+    s.add_argument("--kind", default="review_alignment",
+                   choices=["review_alignment", "review_objects", "disputed_loci", "hand_survey"])
+    s.add_argument("--author", default="anon"); s.add_argument("--task-id"); s.add_argument("--summary")
+    s.add_argument("--limit", type=int, default=50); s.set_defaults(f=cmd_task)
+    s = sp.add_parser("register-manual", help="hash + register files a human placed in evidence/<source_id>/")
+    s.add_argument("source_id"); s.set_defaults(f=cmd_register_manual)
     s = sp.add_parser("release", help="freeze a hashed release manifest"); s.add_argument("version")
     s.add_argument("--notes", default=""); s.set_defaults(f=cmd_release)
 

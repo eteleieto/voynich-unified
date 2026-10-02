@@ -18,7 +18,7 @@ def test_evidence_files_are_read_only():
 def test_auto_sources_fully_acquired():
     have = {(r["source_id"], r["path"]) for r in registry.read_manifest()}
     for s in registry.load_sources():
-        if s["acquisition"] in ("auto", "iiif"):
+        if s["acquisition"] in ("auto", "iiif"):  # harvest sources list files dynamically
             for f in s.get("files") or []:
                 assert (s["source_id"], f["path"]) in have, f"{s['source_id']}/{f['path']} not fetched"
 
