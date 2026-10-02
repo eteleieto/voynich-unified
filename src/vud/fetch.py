@@ -146,6 +146,7 @@ def fetch(only: list[str] | None = None, workers: int = 4) -> None:
             if not jobs:
                 continue
             print(f"[{sid}] {len(jobs)} file(s) to fetch", file=sys.stderr)
+            known = _manifest_index()  # files recorded by a previous acquisition (e.g. on another machine)
             done, failed = [], []
             with ThreadPoolExecutor(max_workers=workers) as ex:
                 futs = {ex.submit(_download, url, paths.evidence_dir(sid) / rel, md5): rel
@@ -154,7 +155,13 @@ def fetch(only: list[str] | None = None, workers: int = 4) -> None:
                     rel = futs[fut]
                     try:
                         meta = fut.result()
-                        done.append({"source_id": sid, "path": rel, **meta})
+                        prev = known.get((sid, rel))
+                        if prev is None:
+                            done.append({"source_id": sid, "path": rel, **meta})
+                        elif prev["sha256"] != meta["sha256"]:
+                            # keep the recorded hash: `vud verify` will flag this file until it is resolved
+                            print(f"  HASH DRIFT {sid}/{rel}: upstream bytes differ from the recorded sha256 "
+                                  f"(recorded {prev['sha256'][:12]}…, got {meta['sha256'][:12]}…)", file=sys.stderr)
                     except Exception as e:  # noqa: BLE001
                         failed.append((rel, str(e)))
                         print(f"  FAIL {rel}: {e}", file=sys.stderr)

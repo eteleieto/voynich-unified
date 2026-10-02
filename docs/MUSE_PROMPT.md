@@ -19,6 +19,9 @@ lead to its end. When something fails, find out *why*, fix the approach, and run
    Needs: Python ≥ 3.11, `uv`, `cc`, about 8 GB disk, and outbound HTTPS to collections.library.yale.edu,
    voynich.nu, zenodo.org, mlat.uzh.ch, github.com, gutenberg.org, su.se, library.yale.edu, web.archive.org.
    If a host is unreachable, note it in `GAPS.md` and continue; `vud manual` lists what needs a human.
+   `HASH DRIFT` on index-like files (IIIF manifests, HTML pages, search JSON) means the publisher changed them.
+   Note it in `GAPS.md`. Drift on content files (images, transliterations, PDFs) means you are not
+   working on the same evidence: stop and report it.
    All paths below are relative to the repository root.
 1. Read `AGENTS.md`, `docs/ORCHESTRATION.md`, `docs/KNOWN_ISSUES.md` and `docs/RESEARCH_AREAS.md`
    (the 100 research areas, numbered A01–A100). Each area has a claim, a technique, and a **verification bar**.
