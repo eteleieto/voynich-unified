@@ -94,6 +94,38 @@ def build_folios(pages: list[dict]) -> None:
             for (q, l), pg in sorted(quires.items())], "quires.parquet")
 
 
+def build_bifolios(pages: list[dict]) -> None:
+    """Conjugate leaves from ZL3b $Q/$B/$F. Missing conjugates are *inferred* by folio-number arithmetic
+    and flagged as reconstructions (method + authority recorded), never mixed with observed leaves."""
+    groups: dict[tuple, dict] = {}
+    for p in pages:
+        if p["folio_num"] is None or p["bifolio_in_quire"] is None:
+            continue
+        g = groups.setdefault((p["quire_num"], p["quire_letter"], int(p["bifolio_in_quire"])), {})
+        g[p["folio_num"]] = p["folio_in_quire"]
+    present = {p["folio_num"] for p in pages if p["folio_num"]}
+    rows = []
+    for (q, ql, b), fol in sorted(groups.items()):
+        fs = sorted(fol)
+        inferred = None
+        if len(fs) == 1:
+            # first-half leaves are a-f, second-half u-z; the lost partner sits on the other side
+            f = fs[0]
+            first_half = fol[f] in "abcdef"
+            cand = [n for n in (range(f + 1, f + 12) if first_half else range(f - 1, f - 12, -1))
+                    if 1 <= n <= 116 and n not in present]
+            inferred = cand[0] if cand else None
+        rows.append({
+            "quire_num": q, "quire_letter": ql, "bifolio_in_quire": b, "folios_present": fs,
+            "status": "complete" if len(fs) == 2 else "singleton",
+            "inferred_missing_conjugate": inferred,
+            "inference_method": "nearest missing folio number on the opposite half of the quire" if inferred else None,
+            "is_reconstruction": inferred is not None,
+            "authority": "zl3b page variables $Q $B $F",
+        })
+    _write(rows, "bifolios.parquet")
+
+
 def build_canvases(pages: list[dict]) -> None:
     man = json.loads((paths.evidence_dir(YALE) / "iiif-manifest.json").read_text())
     have = {r["path"]: r for r in registry.read_manifest() if r["source_id"] == YALE}
@@ -170,6 +202,7 @@ def build_materials() -> None:
 def build() -> dict:
     pages = build_pages()
     build_folios(pages)
+    build_bifolios(pages)
     build_canvases(pages)
     build_materials()
     return {"pages": len(pages)}

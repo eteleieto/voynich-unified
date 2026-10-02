@@ -25,12 +25,14 @@ def cmd_fetch(a):
 
 def cmd_build(a):
     from . import (build_archetype, build_codicology, build_common, build_derived, build_legacy,
-                   build_literature, build_transcriptions, contrib, db, registry)
+                   build_literature, build_orders, build_spatial, build_transcriptions, build_visual,
+                   contrib, db, registry)
     steps = {
         "registry": registry.build, "transcriptions": build_transcriptions.build,
         "legacy": build_legacy.build,
         "codicology": build_codicology.build, "archetype": build_archetype.build,
-        "common": build_common.build, "derived": build_derived.build, "literature": build_literature.build,
+        "common": build_common.build, "spatial": build_spatial.build, "visual": build_visual.build,
+        "derived": build_derived.build, "orders": build_orders.build, "literature": build_literature.build,
         "contrib": contrib.build, "db": db.build,
     }
     todo = list(steps) if a.step == "all" else [a.step]
@@ -148,11 +150,39 @@ def cmd_image(a):
             for poly, allo in con.sql("select polygon_px, allograph from annotations.glyph_annotations where yale_seq = ?", params=[seq]).fetchall():
                 d.polygon([tuple(p) for p in poly], outline=(255, 0, 0), width=4)
                 d.text((poly[0][0], poly[0][1] - 18), allo or "", fill=(255, 0, 0))
+        if a.rows or a.boundaries:
+            d = ImageDraw.Draw(im)
+            al = {r[0]: r[1] for r in con.sql("""select row_id, locus_id || ' (' || round(confidence, 2) || ')'
+                    from observations.spatial_locus_alignment where seq = ?""", params=[seq]).fetchall()}
+            for rid, x0, y0, x1, y1, frs, det in con.sql("""select row_id, x0, y0, x1, y1, fragments_xyxy, fragments_detached
+                    from observations.spatial_text_rows where seq = ? and page_id = ?""", params=[seq, a.page_id]).fetchall():
+                col = (0, 160, 0) if rid in al else (120, 120, 255)
+                for f, dt in zip(frs, det):
+                    d.rectangle(f, outline=(200, 0, 200) if dt else col, width=3)
+                if rid in al:
+                    d.text((x1 + 8, y0), al[rid], fill=(0, 120, 0))
+            if a.boundaries:
+                for x_l, x_r, kind, y0, y1 in con.sql("""select g.x_left, g.x_right, b.boundary_kind, r.y0, r.y1
+                        from observations.spatial_boundary_gaps b
+                        join observations.spatial_row_gaps g using (row_id, gap_idx)
+                        join observations.spatial_text_rows r using (row_id)
+                        where b.witness_id = ? and r.seq = ? and r.page_id = ?""", params=[a.boundaries, seq, a.page_id]).fetchall():
+                    xm = (x_l + x_r) / 2
+                    c = {"space": (0, 90, 255), "uncertain_space": (255, 140, 0)}.get(kind, (255, 0, 0))
+                    d.line([(xm, y0), (xm, y1)], fill=c, width=4)
+        if a.objects:
+            d = ImageDraw.Draw(im)
+            cols = {"pigment_green": (0, 200, 0), "pigment_blue": (0, 0, 255), "pigment_red": (255, 0, 0),
+                    "ink_drawing": (255, 0, 255)}
+            for poly, cls in con.sql("select polygon_px, object_class from observations.visual_objects where seq = ? and area_px > 2000",
+                                     params=[seq]).fetchall():
+                if len(poly) >= 3:
+                    d.polygon([tuple(p) for p in poly], outline=cols.get(cls, (0, 0, 0)), width=5)
         if box:
             im = im.crop(box)
         im.thumbnail((a.max, a.max))
         tag = f"_{a.region.replace(',', '-')}" if a.region else ""
-        out = VIEWS / f"{a.page_id}_seq{seq}{tag}{'_glyphs' if a.glyphs else ''}.jpg"
+        out = VIEWS / f"{a.page_id}_seq{seq}{tag}{'_glyphs' if a.glyphs else ''}{'_rows' if a.rows else ''}{'_obj' if a.objects else ''}{'_b-' + a.boundaries.replace(':', '-') if a.boundaries else ''}.jpg"
         im.convert("RGB").save(out, quality=88)
         print(out)
 
@@ -263,7 +293,12 @@ def main(argv=None):
     s.add_argument("page_id"); s.add_argument("--region", help="x,y,w,h in full-canvas pixels")
     s.add_argument("--max", type=int, default=1600, help="longest side of output (px)")
     s.add_argument("--full-canvas", action="store_true", help="ignore the foldout panel box")
-    s.add_argument("--glyphs", action="store_true", help="overlay Archetype glyph polygons"); s.set_defaults(f=cmd_image)
+    s.add_argument("--glyphs", action="store_true", help="overlay Archetype glyph polygons")
+    s.add_argument("--objects", action="store_true", help="overlay machine-detected pigment regions / ink drawings")
+    s.add_argument("--rows", action="store_true", help="overlay detected text rows (green = aligned to a locus)")
+    s.add_argument("--boundaries", metavar="WITNESS", help="overlay a witness's word boundaries on matched gaps "
+                   "(blue '.', orange ',', red drawing breaks); implies --rows")
+    s.set_defaults(f=cmd_image)
     sp.add_parser("docs", help="regenerate docs/SCHEMA.md").set_defaults(f=cmd_docs)
     s = sp.add_parser("release", help="freeze a hashed release manifest"); s.add_argument("version")
     s.add_argument("--notes", default=""); s.set_defaults(f=cmd_release)

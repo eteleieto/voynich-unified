@@ -133,6 +133,11 @@ def build() -> dict:
                              "see": "data/derived/common_eva/_recipe.txt"}),
         ("common_eva_tokens", {"tool": "bitrans", "rules": "STA-Eva_Bint.bit"}),
         ("version_diffs", {"code": "vud.build_legacy", "lineages": "ZL, IT/TT, CD, FG, GC, RF"}),
+        ("reading_order_schemes", {"code": "vud.build_orders.build_orders"}),
+        ("reading_order_items", {"code": "vud.build_orders.build_orders",
+                                 "inputs": "annotations.loci file order; observations.spatial_*"}),
+        ("glyph_features", {"code": "vud.build_orders.build_glyph_features", "method_version": "glyphfeat-v1",
+                            "binarization": "Otsu on 6px-padded bbox crop of the full-res canvas"}),
     ]:
         recipes.append({"table": name, "code": "vud.build_derived.build", "code_sha": _code_hash(build),
                         "git_commit": _git_commit(), "parameters_json": json.dumps(params),
