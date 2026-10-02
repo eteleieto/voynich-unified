@@ -1,0 +1,13 @@
+# Large / reproducible artifacts. Evidence is re-fetched by `vud fetch` and verified against MANIFEST.tsv.
+evidence/**
+!evidence/MANIFEST.tsv
+data/
+voynich.duckdb
+voynich.duckdb.wal
+views/
+_scratch/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.DS_Store

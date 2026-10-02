@@ -1,0 +1,61 @@
+# Hand-transcribed scientific measurements (E0-derived facts, transcribed by a human from the cited source).
+# Every row cites source_id + locator (page/table) so it can be re-checked against the evidence file.
+# `folio_ref` is the sample location exactly as the source writes it. `page_id` is only filled where the
+# mapping to an IVTFF page name is unambiguous; foldout panels the source does not specify stay null.
+# Interpretive conclusions of the authors are recorded in `source_conclusion`, separately from constituents.
+
+transcribed_by: Claude (claude-opus-5-5), 2026-10-01, from evidence files listed per row
+review_status: unreviewed
+
+mccrone_samples:
+  source_id: mccrone_2009
+  locator: "Table I (report pp. 7-8 of PDF)"
+  sampled: "2009-01-14/2009-01-15, Sterling Library conservation laboratory"
+  techniques: [PLM, IR, XRD, SEM-EDS]
+  sampler: "McCrone Associates (J. G. Barabe), locations recommended by A. Vendl"
+  codex_dimensions_reported: {height_cm: 23.5, width_cm: 16.2, depth_cm: 5, locator: "p.1"}
+  rows:
+    - {sample: 1,  folio_ref: "Folio 26R", page_id: f26r, item: "Black ink from text", material_class: ink_text, v: "3.5 cm from top", h: "10.2 cm from right", constituents: ["Iron gall ink", "Gum binder"], figures: "1A-1D"}
+    - {sample: 2,  folio_ref: "Folio 26R", page_id: f26r, item: "Black ink from drawing", material_class: ink_drawing, v: "7.3 cm from top", h: "5.5 cm from right", constituents: ["Iron gall ink", "Potassium lead oxide", "Potassium hydrogen phosphate", "Syngenite", "Gum binder"], figures: "2A-2D"}
+    - {sample: 3,  folio_ref: "Folio 26R", page_id: f26r, item: "Green leaf", material_class: paint_green, v: "14.2 cm from top", h: "6.7 cm from right", constituents: ["Copper - organic complex", "Atacamite (possible)", "Calcium sulfate", "Calcium carbonate", "Gum binder"], figures: "3A-3F"}
+    - {sample: 4,  folio_ref: "Folio 26R", page_id: f26r, item: "Blue flower", material_class: paint_blue, v: "2.3 cm from top", h: "4.0 cm from right", constituents: ["Azurite", "Cuprite (minor)"], figures: "4A-4C"}
+    - {sample: 5,  folio_ref: "Folio 26R", page_id: f26r, item: "Red-brown root", material_class: paint_red_brown, v: "18.7 cm from top", h: "9.1 cm from right", constituents: ["Red ochre (hematite)", "Lead oxide", "Potassium compounds"], figures: "5A-5C"}
+    - {sample: 6,  folio_ref: "Folio 47R", page_id: f47r, item: "Black ink from text", material_class: ink_text, v: "8.4 cm from top", h: "12.6 cm from right", constituents: ["Iron gall ink (low iron)", "Calcium sulfate", "Calcium carbonate", "Gum binder"], figures: "6A-6D"}
+    - {sample: 7,  folio_ref: "Folio 47R", page_id: f47r, item: "Green leaf", material_class: paint_green, v: "4.3 cm from top", h: "5.4 cm from right", constituents: ["Copper - organic complex", "Atacamite (probable)", "Gum binder"], figures: "7A-7C"}
+    - {sample: 8,  folio_ref: "Folio 47R", page_id: f47r, item: "Red-brown root", material_class: paint_red_brown, v: "0.8 cm from bottom", h: "8.8 cm from right", constituents: ["Red ochre (hematite)", "Iron sulfide", "Palmierite"], figures: "8A-8D"}
+    - {sample: 9,  folio_ref: "Folio 78R", page_id: f78r, item: "Black ink from text", material_class: ink_text, v: "3.6 cm from top", h: "12.7 cm from right", constituents: ["Iron gall ink (low iron)", "Calcium sulfate", "Mercury compound (traces)", "Gum binder"], figures: "9A-9D"}
+    - {sample: 10, folio_ref: "Folio 78R", page_id: f78r, item: "Blue water from pipe", material_class: paint_blue, v: "7.4 cm from top", h: "2.8 cm from right", constituents: ["Azurite", "Cuprite (minor)"], figures: "10A-10C"}
+    - {sample: 11, folio_ref: "Folio 78R", page_id: f78r, item: "Green pool", material_class: paint_green, v: "3.6 cm from bottom", h: "4.8 cm from right", constituents: ["Copper - organic complex", "Atacamite (probable)", "Tin and iron compounds", "Gum binder", "Azurite and cuprite (traces)"], figures: "11A-11C"}
+    - {sample: 12, folio_ref: "Folio 78R", page_id: f78r, item: "Clear material from headdress of bather", material_class: paint_clear_white, v: "3.6 cm from bottom", h: "4.9 cm from right", constituents: ["Calcium carbonate", "Proteinaceous material, possibly eggwhite"], figures: "11A, 12A-12D"}
+    - {sample: 13, folio_ref: "Folio 86V", page_id: null, item: "Black ink from text", material_class: ink_text, v: "2.5 cm from top", h: "6.7 cm from left", constituents: ["Iron gall ink", "Potassium compound", "Calcium sulfate", "Calcium carbonate", "Gum binder"], figures: "13A-13C", note: "f86v is a multi-panel foldout (f86v3-v6); panel not stated by source"}
+    - {sample: 14, folio_ref: "Folio 86V", page_id: null, item: "Black ink from drawing", material_class: ink_drawing, v: "4.0 cm from top", h: "1.0 cm from right", constituents: ["Iron gall ink (low iron)", "Gum binder"], figures: "14A-14C", note: "panel not stated by source"}
+    - {sample: 15, folio_ref: "Folio 26R", page_id: f26r, item: "Black ink from page number (26)", material_class: ink_foliation, v: "0.8 cm from top", h: "0.8 cm from right", constituents: ["Iron gall ink (high phosphorus and iron)", "Gum binder"], figures: "15A-15D"}
+    - {sample: 16, folio_ref: "Folio 116V", page_id: f116v, item: "Black ink from text", material_class: ink_text, v: "6.9 cm from top", h: "2.9 cm from left", constituents: ["Iron gall ink (high iron)", "Gum binder"], figures: "16A, 16B", note: "no photograph recorded (source)"}
+    - {sample: 17, folio_ref: "Folio 70V", page_id: null, item: "Black ink from drawing (woman's face)", material_class: ink_drawing, v: "12.5 cm from top", h: "14.3 cm from left", constituents: ["Iron gall ink", "Mercury compound", "Titanium compound", "Tin compound (particle)", "Gum binder"], figures: "17A-17F", note: "f70v is a 2-panel foldout (f70v1/f70v2); panel not stated by source"}
+    - {sample: 18, folio_ref: "Folio 70V", page_id: null, item: "Clear-white paint from drawing (woman's face)", material_class: paint_clear_white, v: "12.5 cm from top", h: "14.3 cm from left", constituents: ["Proteinaceous", "Carbohydrate - starch (traces)"], figures: "17A, 18A, 18B"}
+    - {sample: 19, folio_ref: "Folio 8V", page_id: f8v, item: "Black ink from quire mark on bottom right", material_class: ink_quire_mark, v: "0.2 cm from bottom", h: "12.8 cm from left", constituents: ["Iron gall ink (very low iron)", "Gum binder"], figures: "19A-19C"}
+    - {sample: 20, folio_ref: "Folio 1R", page_id: f1r, item: "Black ink from 'a' under chemical stain", material_class: ink_latin_letter, v: "2.5 cm from top", h: "0.6 cm from right", constituents: ["Iron gall ink (very low iron)", "Bone black", "Titanium compound", "Binder undetermined"], figures: "20A-1 - 20F"}
+  source_conclusions:
+    - {locator: "p.5", text: "In all probability, the ink used for the text is the same as that used for the drawings; both are iron gall inks."}
+    - {locator: "p.5", text: "The page-number ink, the quire ink, and the ink of the Latin alphabet on 1R are all different from the text/drawing ink and from one another."}
+    - {locator: "p.5", text: "The blue paint is ground azurite."}
+    - {locator: "p.6", text: "The green paint is copper-stained amorphous organic material consistent with copper resinate, plus copper-chloride compounds consistent with atacamite; no resins identified."}
+    - {locator: "p.6", text: "The binding medium for all inks and the green paint is gum; binder for Sample 20 undetermined."}
+    - {locator: "p.3", text: "One example found in which paint was clearly over the writing (Figure 7A)."}
+    - {locator: "p.1", text: "UV examination of folio 1R revealed a signature, probably that of Jacobj a Tepenece; other undeciphered writing also seen; blotchiness consistent with chemical staining."}
+
+radiocarbon:
+  source_id: radiocarbon_arizona_2009
+  locator: "voynich.nu/extra/carbon.html, Tables 2-3 (values as presented by G. Hodgins, Villa Mondragone, 2012-05-11)"
+  lab: University of Arizona AMS
+  material: parchment (vellum)
+  rows:
+    - {folio: 8,  page_id: null, description: "Herbal-A (Tepenec signature)", f14c: 0.9409, f14c_sigma: 0.0044, age_bp: 489, uncal_year_ad: 1461, sigma_years: 38}
+    - {folio: 26, page_id: null, description: "Herbal-B",                    f14c: 0.9380, f14c_sigma: 0.0041, age_bp: 514, uncal_year_ad: 1436, sigma_years: 35}
+    - {folio: 47, page_id: null, description: "Herbal-A (thick folio)",      f14c: 0.9389, f14c_sigma: 0.0041, age_bp: 506, uncal_year_ad: 1444, sigma_years: 35}
+    - {folio: 68, page_id: null, description: "Astronomical foldout",        f14c: 0.9338, f14c_sigma: 0.0041, age_bp: 550, uncal_year_ad: 1400, sigma_years: 35}
+  combined:
+    calibrated_95pct: {from_ad: 1404, to_ad: 1438, locator: "carbon.html intro paragraph"}
+    note: >
+      Samples are of folios (leaf), not pages. 'mean 1435 / sd 26' on the same page refers to UNCALIBRATED dates;
+      do not confuse with the calibrated interval.

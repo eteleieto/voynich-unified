@@ -1,0 +1,378 @@
+# Voynich Unified Dataset — source registry (E0 catalog)
+#
+# Every row in every built table must trace back to one or more source_ids here.
+# Rules:
+#   * A source is a specific *version* of something. New version => new source_id.
+#     Never edit the files of an existing source; add a new entry instead.
+#   * `acquisition`:
+#       auto        – `vud fetch` downloads it; sha256 recorded in evidence/MANIFEST.tsv
+#       iiif        – `vud fetch` walks a IIIF manifest and downloads every canvas image
+#       manual      – must be placed in evidence/<source_id>/ by hand (instructions in notes)
+#       registered  – known to exist, raw data not (yet) obtainable; kept so absence is explicit
+#       deferred    – large external corpus; schema exists, ingestion is a later phase
+#   * `layer`: E0 raw evidence | E2 scholarly annotation | H hypothesis | LIT literature | CMP comparator
+#   * `files[].path` is relative to evidence/<source_id>/
+
+sources:
+
+  # ------------------------------------------------------------------ images
+  - source_id: yale_ms408_iiif_2014
+    name: Beinecke MS 408 complete digital surrogate (IIIF)
+    creator: Beinecke Rare Book & Manuscript Library, Yale University
+    version: "manifest as retrieved"
+    layer: E0
+    kind: image_set
+    acquisition: iiif
+    canonical_location: https://collections.library.yale.edu/catalog/2002046
+    manifest_url: https://collections.library.yale.edu/manifests/2002046
+    license: "Yale Library Open Access (public-domain object); attribution: Beinecke Rare Book & Manuscript Library"
+    files:
+      - {url: "https://collections.library.yale.edu/manifests/2002046", path: iiif-manifest.json}
+      - {url: "https://collections.library.yale.edu/catalog/oai?verb=GetRecord&metadataPrefix=oai_mods&identifier=oai:collections.library.yale.edu:2002046", path: mods.xml}
+    notes: >
+      213 canvases (covers, flyleaves, edges, all folios incl. foldout panels as Yale photographed them).
+      Masters are the IIIF 'full/full' JPEGs, which are the largest public derivatives; Yale's archival
+      TIFFs are not separately exposed. Images are stored byte-for-byte as served; never resized or cropped.
+
+  # ---------------------------------------------------------- transliterations
+  - source_id: zl3b
+    name: Zandbergen–Landini transliteration, version 3b
+    creator: René Zandbergen (from the Landini–Zandbergen EVMT effort)
+    version: "3b of 13/05/2025"
+    layer: E2
+    kind: transliteration
+    alphabet: Eva-
+    format: IVTFF 2.0
+    acquisition: auto
+    canonical_location: https://www.voynich.nu/transcr.html
+    license: "Unspecified; freely published by R. Zandbergen for research. Cite voynich.nu."
+    files: [{url: "https://www.voynich.nu/data/ZL3b-n.txt", path: ZL3b-n.txt}]
+    notes: Most complete and most carefully maintained transliteration; uses extended EVA (@nnn; rare chars).
+
+  - source_id: it2a
+    name: Takahashi transliteration (LSI-derived), IVTFF version 2a
+    creator: Takeshi Takahashi; IVTFF conversion R. Zandbergen
+    version: "2a of 02/02/2023 modified 25/06/2025"
+    layer: E2
+    kind: transliteration
+    alphabet: EvaT
+    format: IVTFF 2.0
+    acquisition: auto
+    canonical_location: https://www.voynich.nu/transcr.html
+    license: "Unspecified; freely published for research. Cite Takahashi and voynich.nu."
+    files: [{url: "https://www.voynich.nu/data/IT2a-n.txt", path: IT2a-n.txt}]
+
+  - source_id: cd2a
+    name: Currier / D'Imperio transliteration, IVTFF version 2a
+    creator: Prescott Currier, Mary D'Imperio; IVTFF conversion R. Zandbergen
+    version: "2a of 02/02/2023"
+    layer: E2
+    kind: transliteration
+    alphabet: Curr
+    format: IVTFF 2.0
+    acquisition: auto
+    canonical_location: https://www.voynich.nu/transcr.html
+    license: "Unspecified (1970s US-government-associated work); cite voynich.nu."
+    files: [{url: "https://www.voynich.nu/data/CD2a-n.txt", path: CD2a-n.txt}]
+    notes: Partial coverage. Native Currier alphabet — NOT EVA. Do not compare character-by-character to EVA without an explicit, versioned mapping.
+
+  - source_id: fg2a
+    name: Friedman First Study Group transliteration, IVTFF version 2a
+    creator: William F. Friedman and the First Study Group; digital file via J. Reeds (1994)
+    version: "2a of 02/02/2023"
+    layer: E2
+    kind: transliteration
+    alphabet: FSG-
+    format: IVTFF 2.0
+    acquisition: auto
+    canonical_location: https://www.voynich.nu/transcr.html
+    license: "Unspecified; cite voynich.nu."
+    files: [{url: "https://www.voynich.nu/data/FG2a-n.txt", path: FG2a-n.txt}]
+    notes: Native FSG alphabet — NOT EVA.
+
+  - source_id: gc2a
+    name: Glen Claston v101 transliteration, IVTFF version 2a
+    creator: Glen Claston (Tim Rayhel); IVTFF conversion R. Zandbergen
+    version: "2a of 05/02/2023 modified 25/06/2025"
+    layer: E2
+    kind: transliteration
+    alphabet: v101
+    format: IVTFF 2.0
+    acquisition: auto
+    canonical_location: https://www.voynich.nu/transcr.html
+    license: "Unspecified; cite voynich.nu."
+    files: [{url: "https://www.voynich.nu/data/GC2a-n.txt", path: GC2a-n.txt}]
+    notes: >
+      v101 is a finer-grained glyph alphabet than EVA (distinguishes forms EVA merges). Native v101 —
+      NOT EVA. Several v101 glyphs use characters that IVTFF otherwise reserves; parser is alphabet-aware.
+
+  - source_id: rf1b_e
+    name: Reference transliteration, version 1b (full / extended EVA)
+    creator: R. Zandbergen (extracted from transliteration database)
+    version: "1b"
+    layer: E2
+    kind: transliteration
+    alphabet: Eva-
+    format: IVTFF 2.0
+    acquisition: auto
+    canonical_location: https://www.voynich.nu/transcr.html
+    license: "Unspecified; cite voynich.nu."
+    files: [{url: "https://www.voynich.nu/data/RF1b-e.txt", path: RF1b-e.txt}]
+    notes: Database-generated ('D' file); uncertainty already resolved to one reading — a consensus/derived product, not an independent witness.
+
+  - source_id: rf1b_er
+    name: Reference transliteration, version 1b (basic EVA, rare chars reduced)
+    creator: R. Zandbergen
+    version: "1b"
+    layer: E2
+    kind: transliteration
+    alphabet: Eva-
+    format: IVTFF 2.0
+    acquisition: auto
+    parent_source_id: rf1b_e
+    canonical_location: https://www.voynich.nu/transcr.html
+    license: "Unspecified; cite voynich.nu."
+    files: [{url: "https://www.voynich.nu/data/RF1b-er.txt", path: RF1b-er.txt}]
+
+  - source_id: voynich_nu_legacy_ivtff
+    name: Superseded IVTFF transliteration releases (version history)
+    creator: R. Zandbergen et al.
+    version: "as listed on voynich.nu/extra/legacy.html"
+    layer: E2
+    kind: transliteration_history
+    acquisition: auto
+    canonical_location: https://www.voynich.nu/extra/legacy.html
+    license: "Unspecified; cite voynich.nu."
+    files:
+      - {url: "https://www.voynich.nu/data/previous/ZL3a-n.txt", path: ZL3a-n.txt}
+      - {url: "https://www.voynich.nu/data/previous/ZL_ivtff_2b.txt", path: ZL_ivtff_2b.txt}
+      - {url: "https://www.voynich.nu/data/previous/ZL_ivtff_1r.txt", path: ZL_ivtff_1r.txt}
+      - {url: "https://www.voynich.nu/data/previous/IT_ivtff_1a.txt", path: IT_ivtff_1a.txt}
+      - {url: "https://www.voynich.nu/data/previous/TT_ivtff_v0a.txt", path: TT_ivtff_v0a.txt}
+      - {url: "https://www.voynich.nu/data/previous/CD_ivtff_1a.txt", path: CD_ivtff_1a.txt}
+      - {url: "https://www.voynich.nu/data/previous/FG_ivtff_1e.txt", path: FG_ivtff_1e.txt}
+      - {url: "https://www.voynich.nu/data/previous/GC_ivtff_1b.txt", path: GC_ivtff_1b.txt}
+      - {url: "https://www.voynich.nu/data/previous/RF1a-n.txt", path: RF1a-n.txt}
+    notes: Kept so that results computed on older releases can be reproduced and so editorial changes between versions are themselves data.
+
+  - source_id: lsi_16e6
+    name: Landini–Stolfi Interlinear file, release 1.6e6 (EVT)
+    creator: Gabriel Landini, Jorge Stolfi; incl. transcriptions by Currier, FSG, Takahashi, Grove, Stolfi and others
+    version: "16e6 (1998-12-28)"
+    layer: E2
+    kind: transliteration_interlinear
+    alphabet: Eva-
+    format: EVT (pre-IVTFF interlinear)
+    acquisition: auto
+    canonical_location: https://www.ic.unicamp.br/~stolfi/EXPORT/00-EXPORT/98-12-28-interln16e6/
+    license: "Unspecified; cite Landini & Stolfi."
+    files:
+      - {url: "https://www.ic.unicamp.br/~stolfi/EXPORT/00-EXPORT/98-12-28-interln16e6/text16e6.evt.gz", path: text16e6.evt.gz}
+      - {url: "https://www.ic.unicamp.br/~stolfi/EXPORT/00-EXPORT/98-12-28-interln16e6/unit16e6.txt", path: unit16e6.txt}
+      - {url: "https://www.ic.unicamp.br/~stolfi/EXPORT/00-EXPORT/98-12-28-interln16e6/edit16e6.txt", path: edit16e6.txt}
+    notes: Contains several partial independent transcriptions (one per transcriber code) that exist nowhere else in machine-readable form.
+
+  # ----------------------------------------------------------- format / alphabet specs
+  - source_id: ivtff_spec_2_0_2
+    name: IVTFF format specification, document issue 2.0.2
+    creator: R. Zandbergen
+    version: "2.0.2 (08/07/2025), format 2.0.1"
+    layer: LIT
+    kind: specification
+    acquisition: auto
+    canonical_location: https://www.voynich.nu/software/ivtt/IVTFF_format.pdf
+    license: "Unspecified; cite voynich.nu."
+    files:
+      - {url: "https://www.voynich.nu/software/ivtt/IVTFF_format.pdf", path: IVTFF_format.pdf}
+      - {url: "https://www.voynich.nu/software/ivtt/IVTT_manual.pdf", path: IVTT_manual.pdf}
+
+  - source_id: sta1_alphabet
+    name: STA1 (Super Transliteration Alphabet) definition and character families
+    creator: R. Zandbergen
+    version: "STA1"
+    layer: LIT
+    kind: specification
+    acquisition: auto
+    canonical_location: https://www.voynich.nu/extra/sta.html
+    license: "Unspecified; cite voynich.nu."
+    files:
+      - {url: "https://www.voynich.nu/data/sta/STA1_def.pdf", path: STA1_def.pdf}
+      - {url: "https://www.voynich.nu/data/sta/STA1-families.pdf", path: STA1-families.pdf}
+
+  # ------------------------------------------------------- palaeography annotations
+  - source_id: archetype_timm_2026
+    name: "Archetype: Voynich Palaeography (database dump)"
+    creator: Torsten Timm
+    version: "v1, 2026-03-01 (Zenodo 10.5281/zenodo.18827108)"
+    layer: E2
+    kind: annotation_db
+    acquisition: auto
+    canonical_location: https://zenodo.org/records/18827108
+    license: CC BY 4.0 (annotations); images subject to Beinecke terms
+    files:
+      - {url: "https://zenodo.org/api/records/18827108/files/README.md/content", path: README.md, md5: ffd4b907ed288f4a90d6db081a213721}
+      - {url: "https://zenodo.org/api/records/18827108/files/archetype-voynich-palaeography-project.tar.gz/content", path: archetype-voynich-palaeography-project.tar.gz, md5: 9b19b4ebe0384bb78c440e64a23e90ff}
+    notes: >
+      1,684 glyph ('graph') polygons on 203 Yale images, with allograph (iin/in/k/sh/weirdos) and hand labels.
+      Hand labels follow Davis's section-based 5-scribe model, which the dataset's author argues AGAINST —
+      treat hand labels as one authority's assignment, not ground truth. Image dimensions match Yale IIIF full
+      size exactly, so geometry registers directly onto yale_ms408_iiif_2014 canvases. The 1.9 GB image tarball
+      is intentionally not fetched (duplicates Yale masters).
+
+  # ------------------------------------------------------- material / scientific
+  - source_id: mccrone_2009
+    name: "Materials Analysis of the Voynich Manuscript (McCrone Associates report to the Beinecke)"
+    creator: McCrone Associates, Inc. (J. Barabe et al.)
+    version: "report dated 2009-04-01 (text only; figures/spectra never released)"
+    layer: E0
+    kind: scientific_report
+    acquisition: auto
+    canonical_location: https://library.yale.edu/sites/default/files/2026-06/voynich_analysis.pdf
+    license: "Published by Yale Library; cite McCrone Associates 2009."
+    files: [{url: "https://library.yale.edu/sites/default/files/2026-06/voynich_analysis.pdf", path: voynich_analysis.pdf}]
+
+  - source_id: barabe_aic_2012
+    name: "The Mysterious Voynich Manuscript: Collaboration Yields Results (AIC Book & Paper Group Annual 31)"
+    creator: J. Barabe, et al.
+    version: "BPGA vol. 31 (2012)"
+    layer: LIT
+    kind: scientific_paper
+    acquisition: auto
+    canonical_location: https://cool.culturalheritage.org/coolaic/sg/bpg/annual/v31/bpga31-15.pdf
+    license: "AIC; cite."
+    files: [{url: "https://cool.culturalheritage.org/coolaic/sg/bpg/annual/v31/bpga31-15.pdf", path: bpga31-15.pdf}]
+
+  - source_id: radiocarbon_arizona_2009
+    name: Radiocarbon dating of four Voynich vellum samples (University of Arizona AMS)
+    creator: Greg Hodgins et al., University of Arizona
+    version: "2009 measurements; announced 2009-12-08; presented Voynich 100 (2012)"
+    layer: E0
+    kind: scientific_measurement
+    acquisition: auto
+    canonical_location: https://www.voynich.nu/extra/carbon.html
+    license: "Values are facts; page text © R. Zandbergen."
+    files: [{url: "https://www.voynich.nu/extra/carbon.html", path: voynich_nu_carbon.html}]
+    notes: >
+      No primary lab report is publicly downloadable. Numerical values are transcribed into
+      data/codicology/material_evidence.parquet from the secondary source captured here, with that
+      provenance recorded per row.
+
+  - source_id: msi_davis_2024
+    name: Multispectral imaging of f1r (and others), Beinecke / L. F. Davis
+    creator: Beinecke Library; Lisa Fagin Davis
+    version: "2024 (blog/publication images)"
+    layer: E0
+    kind: scientific_imaging
+    acquisition: registered
+    canonical_location: https://manuscriptroadtrip.wordpress.com/
+    license: n/a
+    notes: >
+      Raw MSI cubes not publicly released. Registered so its absence is explicit. If obtained, images
+      must be registered against yale_ms408_iiif_2014 canvases via an explicit transform record.
+
+  - source_id: beinecke_msi_2014
+    name: Beinecke multispectral / additional scientific examination (reported)
+    creator: Beinecke Library
+    version: n/a
+    layer: E0
+    kind: scientific_imaging
+    acquisition: registered
+    canonical_location: https://beinecke.library.yale.edu/beinecke/collections/beinecke-cipher-voynich-manuscript
+    license: n/a
+    notes: Reported by Yale; raw data not public.
+
+  # ------------------------------------------------------------- literature
+  - source_id: dimperio_1978
+    name: "The Voynich Manuscript: An Elegant Enigma"
+    creator: Mary E. D'Imperio (NSA)
+    version: "1978 (declassified scan, Internet Archive)"
+    layer: LIT
+    kind: monograph
+    acquisition: auto
+    canonical_location: https://archive.org/details/VoynichManuscriptAnElegantEnigma
+    license: "US Government work (public domain)"
+    files: [{url: "https://archive.org/download/VoynichManuscriptAnElegantEnigma/Voynich%20Manuscript-%20An.%20Elegant.%20Enigma.pdf", path: dimperio_elegant_enigma_1978.pdf}]
+
+  - source_id: tiltman_1967
+    name: "The Voynich Manuscript: 'The Most Mysterious Manuscript in the World'"
+    creator: John H. Tiltman (NSA Technical Journal)
+    version: "1967 (declassified 2002)"
+    layer: LIT
+    kind: paper
+    acquisition: auto
+    canonical_location: https://www.nsa.gov/portals/75/documents/news-features/declassified-documents/tech-journals/voynich-manuscript-mysterious.pdf
+    license: "US Government work (public domain)"
+    files: [{url: "http://web.archive.org/web/20260920073605id_/https://www.nsa.gov/portals/75/documents/news-features/declassified-documents/tech-journals/voynich-manuscript-mysterious.pdf", path: tiltman_1967.pdf}]
+    notes: Fetched via Wayback Machine because nsa.gov refuses non-browser clients.
+
+  - source_id: dimperio_cluster_1978
+    name: "An Application of Cluster Analysis and Multidimensional Scaling to the Question of 'Hands' and 'Languages' in the Voynich Manuscript"
+    creator: Mary E. D'Imperio (NSA Technical Journal)
+    version: "1978 (declassified)"
+    layer: LIT
+    kind: paper
+    acquisition: auto
+    canonical_location: https://www.nsa.gov/portals/75/documents/news-features/declassified-documents/tech-journals/Application-of-Cluster-Analysis.pdf
+    license: "US Government work (public domain)"
+    files: [{url: "http://web.archive.org/web/2026id_/https://www.nsa.gov/portals/75/documents/news-features/declassified-documents/tech-journals/Application-of-Cluster-Analysis.pdf", path: dimperio_cluster_1978.pdf}]
+
+  - source_id: nsa_voynich_index
+    name: NSA index of attempts to decipher the Voynich manuscript (Friedman collection)
+    creator: NSA
+    version: "2010 release"
+    layer: LIT
+    kind: index
+    acquisition: registered
+    canonical_location: https://www.nsa.gov/portals/75/documents/news-features/declassified-documents/voynich/nsa-index-for-attempts-to-decipher-the-voynich-manuscript.pdf
+    license: "US Government work (public domain)"
+    notes: nsa.gov blocks non-browser clients and no Wayback snapshot exists; download manually in a browser into evidence/nsa_voynich_index/ and switch to manual.
+
+  # ------------------------------------------------- hypotheses seen in the wild (H)
+  - source_id: zenodo_greek_eva2_2025
+    name: "Voynich Manuscript – Full Dataset v2.0 (EVA2 + proposed Greek reading)"
+    creator: (Zenodo 18215102)
+    version: "2.0"
+    layer: H
+    kind: decipherment_claim
+    acquisition: registered
+    canonical_location: https://zenodo.org/records/18215102
+    license: see record
+    notes: Example of an external decipherment claim. If ingested, goes ONLY under hypotheses/.
+
+  # ---------------------------------------------------------- comparator corpora
+  - source_id: cmp_curious_cures
+    name: Curious Cures in Cambridge Libraries (medieval medical recipes)
+    creator: Cambridge University Library et al.
+    version: n/a
+    layer: CMP
+    kind: comparator_corpus
+    acquisition: deferred
+    canonical_location: https://cudl.lib.cam.ac.uk/collections/curiouscures
+    license: per item
+  - source_id: cmp_corpus_corporum
+    name: Corpus Corporum (Latin texts, TEI)
+    creator: University of Zurich
+    version: n/a
+    layer: CMP
+    kind: comparator_corpus
+    acquisition: deferred
+    canonical_location: https://www.mlat.uzh.ch/
+    license: per text
+  - source_id: cmp_biblissima
+    name: Biblissima+ IIIF collections portal
+    creator: Biblissima+
+    version: n/a
+    layer: CMP
+    kind: comparator_index
+    acquisition: deferred
+    canonical_location: https://iiif.biblissima.fr/collections/
+    license: per item
+  - source_id: cmp_digital_scriptorium
+    name: Digital Scriptorium (US medieval manuscript union catalog, IIIF)
+    creator: Digital Scriptorium
+    version: n/a
+    layer: CMP
+    kind: comparator_index
+    acquisition: deferred
+    canonical_location: https://search.digital-scriptorium.org/
+    license: per item

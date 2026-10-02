@@ -1,0 +1,78 @@
+# Curated correspondences between Yale IIIF canvases (by manifest sequence number) and IVTFF page names.
+# Canvases whose Yale label is a plain folio side ("1r", "57v") are mapped automatically (method=label_exact)
+# and must NOT be listed here. Everything listed here overrides the automatic rule for that canvas.
+#
+# role:
+#   whole    the page occupies (essentially) the whole canvas
+#   part     the page is one panel of a multi-panel canvas; region_xywh (pixels on the full-size canvas)
+#            gives an approximate panel box when known
+#   partial  the canvas shows only part of the page (Yale photographed a foldout panel in pieces)
+# x_frac: [left, right] horizontal extent of the panel as a fraction of canvas width (full height assumed).
+#         Estimated by eye from decile-ticked previews at fold creases; expect +-3% error. Converted to
+#         region_xywh pixels by the builder.
+# Evidence used besides the image: Archetype (Timm 2026) image labels, which match canvases by exact
+# pixel size, and ZL3b line counts / page comments per page.
+
+curated_by: Claude (claude-opus-5-5), 2026-10-01; review_status unreviewed
+
+binding:
+  1: front_cover
+  2: inside_front_cover
+  207: back_flyleaf_recto
+  208: back_flyleaf_verso_inside_back_cover
+  209: edge_head
+  210: edge_tail
+  211: edge_fore
+  212: spine
+  213: back_cover
+
+canvases:
+  121: {pages: [{page_id: f67r1, role: part, x_frac: [0.0, 0.50]}, {page_id: f67r2, role: part, x_frac: [0.50, 1.0]}]}
+  122: {pages: [{page_id: f67v2, role: part, x_frac: [0.0, 0.49]}, {page_id: f67v1, role: part, x_frac: [0.49, 1.0]}]}
+  123: {pages: [{page_id: f68r1, role: part, x_frac: [0.0, 0.31]}, {page_id: f68r2, role: part, x_frac: [0.31, 0.555]}, {page_id: f68r3, role: part, x_frac: [0.555, 1.0]}]}
+  124: {pages: [{page_id: f68v3, role: part, x_frac: [0.0, 0.44]}, {page_id: f68v2, role: part, x_frac: [0.44, 0.70]}, {page_id: f68v1, role: part, x_frac: [0.70, 1.0]}]}
+  126:
+    note: Yale label "69v and 70r"
+    pages: [{page_id: f69v, role: part, x_frac: [0.0, 0.34]}, {page_id: f70r1, role: part, x_frac: [0.34, 0.60]}, {page_id: f70r2, role: part, x_frac: [0.60, 1.0]}]
+  127: {note: "Yale label '70v (part)'; Pisces; Archetype label 70v2", pages: [{page_id: f70v2, role: whole}]}
+  128: {note: "Yale label '70v (part)'; Aries; Archetype label 70v1", pages: [{page_id: f70v1, role: whole}]}
+  130:
+    note: Yale label "71v and 72r"
+    pages: [{page_id: f71v, role: part, x_frac: [0.0, 0.26]}, {page_id: f72r1, role: part, x_frac: [0.26, 0.50]}, {page_id: f72r2, role: part, x_frac: [0.50, 0.68]}, {page_id: f72r3, role: part, x_frac: [0.68, 1.0]}]
+  131:
+    note: "Yale label '72v (part)'; Archetype labels the whole canvas 72v2"
+    pages: [{page_id: f72v3, role: part, x_frac: [0.0, 0.60]}, {page_id: f72v2, role: part, x_frac: [0.60, 1.0]}]
+  132: {note: "Yale label '72v (part)'; Archetype label 72v1", pages: [{page_id: f72v1, role: whole}]}
+  155: {note: "text-only panel; Archetype 85r1", pages: [{page_id: f85r1, role: whole}]}
+  156:
+    note: "Yale label '85r (part) 86v (part)'. Identification from ZL3b comments: f85r2 = 'circle divided in 4, 4 human figures'; f86v4 = 'moon, 5 frothy rings'; f86v6 = text only"
+    pages: [{page_id: f85r2, role: part, x_frac: [0.0, 0.39]}, {page_id: f86v4, role: part, x_frac: [0.39, 0.70]}, {page_id: f86v6, role: part, x_frac: [0.70, 1.0]}]
+  157:
+    note: "Yale label '86v (part)'. Left panel is text-only with folio mark 86 (= f86v5 per ZL3b comment); right is f86v3"
+    pages: [{page_id: f86v5, role: part, x_frac: [0.0, 0.47]}, {page_id: f86v3, role: part, x_frac: [0.47, 1.0]}]
+  158: {note: "Rosettes: f85v + f86r as one six-panel drawing", pages: [{page_id: fRos, role: whole}]}
+  162:
+    note: Yale label "88v and 89r"; f89r2 is a page-and-a-half (ZL3b)
+    pages: [{page_id: f88v, role: part, x_frac: [0.0, 0.31]}, {page_id: f89r1, role: part, x_frac: [0.31, 0.58]}, {page_id: f89r2, role: part, x_frac: [0.58, 1.0]}]
+  163: {note: "Yale label '89v (part)'; page-and-a-half; Archetype 89v2", pages: [{page_id: f89v2, role: whole}]}
+  164:
+    note: "Yale label '89v (part) and 90r'. f90r1 (9 lines) / f90r2 (6 lines) consistent with visible text"
+    pages: [{page_id: f89v1, role: part, x_frac: [0.0, 0.38]}, {page_id: f90r1, role: part, x_frac: [0.38, 0.69]}, {page_id: f90r2, role: part, x_frac: [0.69, 1.0]}]
+  165:
+    note: "Yale labels this '90r' but 90r is on canvas 164. Archetype labels it 90v2; visible text = 8 lines = ZL3b f90v2 (8 loci). Probable Yale mislabel."
+    pages: [{page_id: f90v2, role: whole, confidence: 0.8}]
+  166: {note: "Yale label '90v (part)'; 11 visible lines = ZL3b f90v1", pages: [{page_id: f90v1, role: whole}]}
+  170:
+    note: Yale label "94v and 95r"
+    pages: [{page_id: f94v, role: part, x_frac: [0.0, 0.39]}, {page_id: f95r1, role: part, x_frac: [0.39, 0.70]}, {page_id: f95r2, role: part, x_frac: [0.70, 1.0]}]
+  171: {note: "Yale label '95v (part)'; Archetype 95v2; 7 visible lines = ZL3b f95v2", pages: [{page_id: f95v2, role: whole}]}
+  172: {note: "Yale label '95v'; 13 visible lines = ZL3b f95v1", pages: [{page_id: f95v1, role: whole}]}
+  178:
+    note: "Yale label '100v and 101r'. ZL3b treats f101r1+f101r2 as one logical page f101r"
+    pages: [{page_id: f100v, role: part, x_frac: [0.0, 0.39]}, {page_id: f101r, role: part, x_frac: [0.39, 1.0]}]
+  179: {note: "Yale label '101v (part)'; Archetype 101v2. ZL3b f101v spans two panels", pages: [{page_id: f101v, role: partial}]}
+  180:
+    note: "Yale label '101v (part) and 102r'"
+    pages: [{page_id: f101v, role: partial, x_frac: [0.0, 0.34]}, {page_id: f102r1, role: part, x_frac: [0.34, 0.64]}, {page_id: f102r2, role: part, x_frac: [0.64, 1.0]}]
+  181: {note: "Yale label '102v (part)'; Archetype 102v2", pages: [{page_id: f102v2, role: whole}]}
+  182: {note: "Yale label '102v (part)'; Archetype 102v1", pages: [{page_id: f102v1, role: whole}]}
