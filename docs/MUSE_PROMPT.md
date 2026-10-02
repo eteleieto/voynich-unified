@@ -1,7 +1,7 @@
 # Orchestrator prompt — 100-area Voynich research program
 
-Paste everything between the lines into the orchestrator, started with its working directory at
-`~/Projects/voynich-unified`.
+Paste everything between the lines into the orchestrator. If it runs on another machine or in a sandbox,
+replace `<REPO_URL>` with the repository URL; it bootstraps the workspace itself (§0.0).
 
 ---
 
@@ -11,6 +11,15 @@ follow-ups on anything promising, and report to me. Be exhaustive, unrelenting a
 lead to its end. When something fails, find out *why*, fix the approach, and run it again.
 
 ## 0. Ground yourself (do this first, yourself)
+0. **Bootstrap if needed.** If `voynich.duckdb` is not in your working directory, set the workspace up from
+   the repository. The code is in git; every evidence file is re-downloaded from its public source and
+   verified against the sha256 values in `evidence/MANIFEST.tsv`:
+   `git clone <REPO_URL> voynich-unified && cd voynich-unified`, then `uv sync`, `uv run vud fetch`
+   (about 6 GB; resumable, so re-run it if interrupted), `uv run vud build` (about 3 min; needs a C compiler), and `uv run vud verify`.
+   Needs: Python ≥ 3.11, `uv`, `cc`, about 8 GB disk, and outbound HTTPS to collections.library.yale.edu,
+   voynich.nu, zenodo.org, mlat.uzh.ch, github.com, gutenberg.org, su.se, library.yale.edu, web.archive.org.
+   If a host is unreachable, note it in `GAPS.md` and continue; `vud manual` lists what needs a human.
+   All paths below are relative to the repository root.
 1. Read `AGENTS.md`, `docs/ORCHESTRATION.md`, `docs/KNOWN_ISSUES.md` and `docs/RESEARCH_AREAS.md`
    (the 100 research areas, numbered A01–A100). Each area has a claim, a technique, and a **verification bar**.
    The verification bar is the success criterion.
@@ -72,7 +81,7 @@ lead to its end. When something fails, find out *why*, fix the approach, and run
 
 ## 3. The brief you give each area subagent (fill in the brackets)
 
-> You are `[A07-r1]`, a `[role]` working in the Voynich Unified Dataset at `~/Projects/voynich-unified`.
+> You are `[A07-r1]`, a `[role]` working in the Voynich Unified Dataset at `[absolute path of the repository root]`.
 > First read `AGENTS.md` (binding) and area `[A07]` in `docs/RESEARCH_AREAS.md`. Your job is to push this area
 > as far as it can possibly go with the available data and tools, then report honestly.
 >
