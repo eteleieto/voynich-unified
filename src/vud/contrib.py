@@ -173,6 +173,10 @@ def build() -> dict:
     (paths.DATA / "hypotheses").mkdir(parents=True, exist_ok=True)
     obs = _read_jsonl(CONTRIB_OBS)
     hyp = _read_jsonl(HYP_DIR)
-    pq.write_table(pa.Table.from_pylist(obs, schema=OBS_SCHEMA), paths.OBSERVATIONS / "observations.parquet")
-    pq.write_table(pa.Table.from_pylist(hyp, schema=HYP_SCHEMA), paths.DATA / "hypotheses" / "hypotheses.parquet")
+    import os
+    for tbl, dest in ((pa.Table.from_pylist(obs, schema=OBS_SCHEMA), paths.OBSERVATIONS / "observations.parquet"),
+                      (pa.Table.from_pylist(hyp, schema=HYP_SCHEMA), paths.DATA / "hypotheses" / "hypotheses.parquet")):
+        tmp = dest.with_name(dest.name + f".tmp{os.getpid()}")
+        pq.write_table(tbl, tmp)
+        os.replace(tmp, dest)  # atomic: concurrent readers never see a half-written file
     return {"observations": len(obs), "hypotheses": len(hyp)}

@@ -346,6 +346,31 @@ def cmd_gallery(a):
     print(out, f"({len(tiles)} tokens; machine spans, sorted by token_confidence)")
 
 
+def cmd_status(a):
+    """One-screen orientation for a new agent."""
+    from . import registry, tasks
+    con = _con()
+    rel = sorted(paths.RELEASES.glob("VUD-*.json"))
+    print(f"release        : {rel[-1].stem if rel else '(none cut yet — run `vud release <v>`)'}")
+    q = lambda sql: con.sql(sql).fetchone()[0]  # noqa: E731
+    print(f"sources        : {len(registry.load_sources())} registered, {len(registry.read_manifest())} evidence files")
+    print(f"witnesses      : {q('select count(*) from annotations.witnesses')} "
+          f"({q('select count(*) from annotations.witnesses where is_independent')} independent)")
+    print(f"pages/canvases : {q('select count(*) from codicology.pages')} pages, {q('select count(*) from codicology.canvases')} MS 408 canvases, "
+          f"{q('select count(*) from codicology.other_canvases where local_path is not null')} other canvases downloaded")
+    print(f"spatial (E1)   : {q('select count(*) from observations.spatial_locus_alignment')} paragraph loci aligned, "
+          f"{q('select count(*) from observations.spatial_token_spans')} token spans")
+    print(f"reviews        : {q('select count(review_verdict) from alignment_reviewed')} alignments reviewed")
+    n_sup = q("select count(*) from hypotheses.hypotheses where status = 'supported'")
+    print(f"contributions  : {q('select count(*) from observations.observations')} observations, "
+          f"{q('select count(*) from hypotheses.hypotheses')} hypothesis rows ({n_sup} supported)")
+    open_claims = [c for c in tasks.board() if c["status"] == "claimed"]
+    print(f"task claims    : {len(open_claims)} open, {sum(1 for c in tasks.board() if c['status'] == 'done')} done")
+    manual = [s["source_id"] for s in registry.load_sources() if s["acquisition"] == "manual"
+              and not any(r["source_id"] == s["source_id"] for r in registry.read_manifest())]
+    print(f"manual pending : {', '.join(manual) or 'none'}")
+
+
 def cmd_release(a):
     """Freeze: hash every built table + the evidence manifest into releases/VUD-<version>.json."""
     def h(p: Path) -> str:
@@ -409,6 +434,7 @@ def main(argv=None):
     s.add_argument("source_id"); s.add_argument("seq", type=int); s.add_argument("--region")
     s.add_argument("--max", type=int, default=1600); s.set_defaults(f=cmd_canvas)
     sp.add_parser("docs", help="regenerate docs/SCHEMA.md").set_defaults(f=cmd_docs)
+    sp.add_parser("status", help="one-screen overview of the workspace").set_defaults(f=cmd_status)
     sp.add_parser("manual", help="status of sources that need a human download").set_defaults(f=cmd_manual)
     s = sp.add_parser("task", help="shared work queue: next | claim | done | board")
     s.add_argument("action", choices=["next", "claim", "done", "board"])

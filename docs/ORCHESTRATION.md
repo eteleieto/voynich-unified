@@ -30,7 +30,11 @@ uv run vud release 0.2.0                      # freeze the dataset version every
 
 Open Claude Code in `~/Projects/voynich-unified` (the agents and settings are project-scoped).
 
-## The master prompt (paste into the orchestrator)
+## The 100-area program
+
+For the full program over `docs/RESEARCH_AREAS.md` (A01–A100), use `docs/MUSE_PROMPT.md`.
+
+## A smaller master prompt (paste into the orchestrator)
 
 > You are the research director for the Voynich Unified Dataset in this folder. Read AGENTS.md and
 > docs/ORCHESTRATION.md first. Run a research program in waves using the project subagents

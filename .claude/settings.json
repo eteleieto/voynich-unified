@@ -10,6 +10,8 @@
       "Bash(uv run vud sources:*)",
       "Bash(uv run vud task:*)",
       "Bash(uv run vud manual:*)",
+      "Bash(uv run vud status:*)",
+      "Bash(uv run vud gallery:*)",
       "Bash(uv run vud build contrib:*)",
       "Bash(uv run vud build db:*)",
       "Bash(uv run vud verify:*)",

@@ -80,9 +80,12 @@ group by all;
 
 
 def build() -> list[str]:
-    if paths.DB_PATH.exists():
-        paths.DB_PATH.unlink()
-    con = duckdb.connect(str(paths.DB_PATH))
+    """Build into a temp file and atomically swap it in, so concurrent readers never see a missing DB."""
+    import os
+    tmp = paths.DB_PATH.with_name(paths.DB_PATH.name + f".tmp{os.getpid()}")
+    if tmp.exists():
+        tmp.unlink()
+    con = duckdb.connect(str(tmp))
     made = []
     for schema, d in LAYER_DIRS.items():
         con.sql(f"create schema if not exists {schema}")
@@ -96,6 +99,7 @@ def build() -> list[str]:
     made += ["main.tokens", "main.locus_readings", "main.alternatives", "main.boundaries",
              "main.page_images", "main.glyphs_located", "main.alignment_reviewed"]
     con.close()
+    os.replace(tmp, paths.DB_PATH)
     return made
 
 

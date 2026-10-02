@@ -41,6 +41,9 @@ Everything here is deliberate or unresolved. Nothing has been silently "fixed" i
   **1404–1438** ("1435" on that page is the mean of the *uncalibrated* dates).
 - McCrone samples on f70v and f86v don't state the foldout panel (`page_id` null).
 - Yale masters are lossy IIIF JPEGs (same pixel grid as the TIFFs).
+- archive.org was unreachable from the build machine (connection reset, 2026-10-02), so older/alternative
+  scan sets hosted there were not surveyed. Retry: search archive.org for "voynich", register any image set as a
+  new `iiif`/`auto` source.
 
 ## Comparators
 - Corpus Corporum: only texts the site marks accessible were harvested (89 Latin texts, ~6.2 M words).

@@ -24,6 +24,7 @@ value is wrong, record an observation or review that supersedes it and explain t
 ## Quick start
 
 ```bash
+uv run vud status                        # one-screen orientation: release, layers, reviews, open tasks
 uv run vud sources                       # what's in here, with provenance and licences
 uv run vud page f1r --comments           # page attributes, image(s), ZL3b lines, Zandbergen's notes
 uv run vud locus f1r.3                   # one line in every witness, raw source lines included
