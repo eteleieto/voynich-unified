@@ -444,7 +444,7 @@ McCrone 2009 Table I: 20 ink/pigment samples with locations and constituents.
 | transcribed_by | VARCHAR |
 | review_status | VARCHAR |
 
-## `codicology.other_canvases`  (224 rows)
+## `codicology.other_canvases`  (1,464 rows)
 
 | column | type |
 |---|---|
