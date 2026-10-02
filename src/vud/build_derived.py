@@ -71,12 +71,17 @@ def build() -> dict:
         from '{paths.ANNOTATIONS / "tokens.parquet"}'
         where ivtff_locus_id is not null and witness_id in ({",".join(repr(w) for w in EVA_WITNESSES)})
         group by 1, 2""").fetchall()
-    by_locus: dict[str, dict[str, list[str]]] = {}
+    by_locus: dict[tuple[str, str], dict[str, list[str]]] = {}
     for wid, lid, toks in tok:
-        by_locus.setdefault(lid, {})[wid] = [norm_eva_basic_v1(t) for t in toks]
+        by_locus.setdefault(("native_eva", lid), {})[wid] = [norm_eva_basic_v1(t) for t in toks]
+    common = paths.DERIVED / "common_eva_tokens.parquet"
+    if common.exists():
+        for wid, lid, toks in con.sql(f"""select witness_id, locus_id, list(text order by token_idx)
+                                          from '{common}' group by 1, 2""").fetchall():
+            by_locus.setdefault(("common_basic_eva", lid), {})[wid] = [norm_eva_basic_v1(t) for t in toks]
 
     rows = []
-    for lid, wit in by_locus.items():
+    for (space, lid), wit in by_locus.items():
         for a, b in combinations(sorted(wit), 2):
             ta, tb = wit[a], wit[b]
             sa, sb = "".join(ta), "".join(tb)
@@ -91,7 +96,7 @@ def build() -> dict:
                 "n_tokens_a": len(ta), "n_tokens_b": len(tb),
                 # boundary agreement is only meaningful when the glyph strings are identical
                 "boundary_jaccard": (len(ba & bb) / len(union) if union else 1.0) if sa == sb else None,
-                "normalization": "eva_basic_v1",
+                "normalization": "eva_basic_v1", "comparison_space": space,
             })
     pq.write_table(pa.Table.from_pylist(rows), paths.DERIVED / "witness_agreement.parquet")
 
@@ -115,13 +120,19 @@ def build() -> dict:
 
     recipes = []
     now = datetime.now(timezone.utc).isoformat(timespec="seconds")
-    srcs = ["zl3b", "it2a", "rf1b_er", "lsi_16e6", "cd2a", "fg2a", "gc2a", "rf1b_e"]
+    srcs = ["zl3b", "it2a", "rf1b_er", "lsi_16e6", "cd2a", "fg2a", "gc2a", "rf1b_e", "sta1_transliterations",
+            "bitrans_tool", "voynich_nu_legacy_ivtff"]
     for name, params in [
-        ("witness_agreement", {"witnesses": EVA_WITNESSES, "normalization": "eva_basic_v1",
+        ("witness_agreement", {"witnesses": EVA_WITNESSES, "plus": "all beva:* witnesses (comparison_space=common_basic_eva)",
+                               "normalization": "eva_basic_v1",
                                "normalization_desc": NORMALIZATIONS["eva_basic_v1"],
                                "similarity": "rapidfuzz Levenshtein.normalized_similarity"}),
         ("locus_coverage", {"all_witnesses": True}),
         ("token_frequencies", {"token_text": "ivtff.plain(first alternative)"}),
+        ("common_eva_loci", {"tool": "bitrans (compiled from evidence)", "rules": "STA-Eva_Bint.bit",
+                             "see": "data/derived/common_eva/_recipe.txt"}),
+        ("common_eva_tokens", {"tool": "bitrans", "rules": "STA-Eva_Bint.bit"}),
+        ("version_diffs", {"code": "vud.build_legacy", "lineages": "ZL, IT/TT, CD, FG, GC, RF"}),
     ]:
         recipes.append({"table": name, "code": "vud.build_derived.build", "code_sha": _code_hash(build),
                         "git_commit": _git_commit(), "parameters_json": json.dumps(params),

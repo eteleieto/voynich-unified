@@ -28,6 +28,13 @@ IVTFF_SOURCES = {
     "rf1b_er": "RF1b-er.txt",
 }
 LEGACY_SOURCE = "voynich_nu_legacy_ivtff"
+STA_SOURCE = "sta1_transliterations"
+# STA1 conversions by Zandbergen: witness suffix -> (file, the original witness it renders)
+STA_FILES = {
+    "ZL3b": ("ZL3b.txt", "zl3b"), "IT2a": ("IT2a.txt", "it2a"), "CD2a_0": ("CD2a_0.txt", "cd2a"),
+    "CD2a_1": ("CD2a_1.txt", "cd2a"), "FG2a": ("FG2a.txt", "fg2a"), "GC2a_0": ("GC2a_0.txt", "gc2a"),
+    "GC2a_1": ("GC2a_1.txt", "gc2a"), "RF1b": ("RF1b.txt", "rf1b_e"), "VT0e": ("VT0e.txt", None),
+}
 LSI_SOURCE = "lsi_16e6"
 
 # Transcriber codes documented in the LSI file header (section <f0.I>), verbatim meaning.
@@ -69,18 +76,18 @@ def _locus_text(units, toks) -> str:
     return "".join(out)
 
 
-def _collect(source_id, pf, rows):
+def _collect(source_id, pf, rows, witness_id=None):
     loci, units, toks, pvars, comments = rows
     alphabet = pf.alphabet
     for p in pf.pages:
         for k, v in p.variables.items():
-            pvars.append({"source_id": source_id, "page_id": p.page_id, "variable": k, "value": v,
+            pvars.append({"source_id": source_id, "witness_id": witness_id or source_id, "page_id": p.page_id, "variable": k, "value": v,
                           "file_line": p.file_line, "raw_header": p.raw_header})
     for c in pf.comments:
-        comments.append({"source_id": source_id, "page_id": c.page_id, "after_locus_id": c.after_locus,
+        comments.append({"source_id": source_id, "witness_id": witness_id or source_id, "page_id": c.page_id, "after_locus_id": c.after_locus,
                          "file_line": c.file_line, "text": c.text})
     for L in pf.loci:
-        wid = _witness_id(source_id, L.transcriber)
+        wid = witness_id or _witness_id(source_id, L.transcriber)
         # LSI line numbers restart inside each unit (P1, L1, ...): keep the native id; IVTFF mapping is separate
         locus_id = f"{L.page_id}.{L.lsi_unit}.{L.locus_num}" if L.lsi_unit else f"{L.page_id}.{L.locus_num}"
         tk = ivtff.tokens(L.units)
@@ -178,6 +185,19 @@ def build() -> dict:
         witnesses.append({"witness_id": sid, "source_id": sid, "transcriber": None,
                           "alphabet": pf.alphabet, "file_header": pf.header,
                           "description": srcs[sid]["name"], "is_independent": sid not in ("rf1b_e", "rf1b_er")})
+
+    for stem, (fname, renders) in STA_FILES.items():
+        pf = ivtff.parse_ivtff((paths.evidence_dir(STA_SOURCE) / fname).read_text(encoding="latin-1"))
+        problems[f"{STA_SOURCE}:{stem}"] = pf.problems
+        wid = f"sta1:{stem}"
+        _collect(STA_SOURCE, pf, rows, witness_id=wid)
+        witnesses.append({"witness_id": wid, "source_id": STA_SOURCE, "transcriber": None, "alphabet": "STA1",
+                          "file_header": pf.header,
+                          "description": f"STA1 rendering of {renders or 'VT (source no. 4; empirically 97.9% token-identical to IT2a, i.e. Takahashi-derived)'}"
+                                         f"{' (regularisation level ' + stem[-1] + ')' if stem[-2] == '_' else ''}",
+                          # same reading as the original witness, different alphabet. VT0e is not an
+                          # independent witness either: derived.witness_agreement shows it tracks IT2a.
+                          "is_independent": False})
 
     raw = gzip.open(paths.evidence_dir(LSI_SOURCE) / "text16e6.evt.gz").read().decode("latin-1")
     pf = ivtff.parse_evt(raw)

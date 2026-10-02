@@ -24,12 +24,13 @@ def cmd_fetch(a):
 
 
 def cmd_build(a):
-    from . import (build_archetype, build_codicology, build_derived, build_literature,
-                   build_transcriptions, contrib, db, registry)
+    from . import (build_archetype, build_codicology, build_common, build_derived, build_legacy,
+                   build_literature, build_transcriptions, contrib, db, registry)
     steps = {
         "registry": registry.build, "transcriptions": build_transcriptions.build,
+        "legacy": build_legacy.build,
         "codicology": build_codicology.build, "archetype": build_archetype.build,
-        "derived": build_derived.build, "literature": build_literature.build,
+        "common": build_common.build, "derived": build_derived.build, "literature": build_literature.build,
         "contrib": contrib.build, "db": db.build,
     }
     todo = list(steps) if a.step == "all" else [a.step]

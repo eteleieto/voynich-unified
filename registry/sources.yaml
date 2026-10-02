@@ -172,6 +172,49 @@ sources:
       - {url: "https://www.ic.unicamp.br/~stolfi/EXPORT/00-EXPORT/98-12-28-interln16e6/edit16e6.txt", path: edit16e6.txt}
     notes: Contains several partial independent transcriptions (one per transcriber code) that exist nowhere else in machine-readable form.
 
+  - source_id: sta1_transliterations
+    name: All transliterations converted to the STA1 super-alphabet (levels 0 and 1)
+    creator: R. Zandbergen (conversion with bitrans from the original files)
+    version: "as listed on voynich.nu/extra/sta.html"
+    layer: E2
+    kind: transliteration_common_alphabet
+    alphabet: STA1
+    format: IVTFF 2.0
+    acquisition: auto
+    canonical_location: https://www.voynich.nu/extra/sta.html
+    license: "Unspecified; cite voynich.nu."
+    files:
+      - {url: "https://www.voynich.nu/data/sta/ZL3b.txt", path: ZL3b.txt}
+      - {url: "https://www.voynich.nu/data/sta/IT2a.txt", path: IT2a.txt}
+      - {url: "https://www.voynich.nu/data/sta/CD2a_0.txt", path: CD2a_0.txt}
+      - {url: "https://www.voynich.nu/data/sta/CD2a_1.txt", path: CD2a_1.txt}
+      - {url: "https://www.voynich.nu/data/sta/FG2a.txt", path: FG2a.txt}
+      - {url: "https://www.voynich.nu/data/sta/GC2a_0.txt", path: GC2a_0.txt}
+      - {url: "https://www.voynich.nu/data/sta/GC2a_1.txt", path: GC2a_1.txt}
+      - {url: "https://www.voynich.nu/data/sta/RF1b.txt", path: RF1b.txt}
+      - {url: "https://www.voynich.nu/data/sta/VT0e.txt", path: VT0e.txt}
+      - {url: "https://www.voynich.nu/data/sta/STA1-basic.pdf", path: STA1-basic.pdf}
+    notes: >
+      The author-sanctioned common alphabet: every glyph is a 2-character STA code (family letter + member).
+      This is THE way to compare Currier, FSG, v101 and EVA witnesses character-by-character. _0/_1 are STA
+      'regularisation levels' 0 and 1. VT0e is listed only as "VT STA level 0" (IVTFF source number 4,
+      database-generated); its provenance is otherwise undocumented on the page. Empirically it is 97.9%
+      token-identical to IT2a (derived.witness_agreement, common_basic_eva), i.e. a Takahashi-derived witness.
+
+  - source_id: bitrans_tool
+    name: bitrans bi-directional transliteration converter (C source, manual, rules files)
+    creator: R. Zandbergen
+    version: "as retrieved"
+    layer: LIT
+    kind: software
+    acquisition: auto
+    canonical_location: https://www.voynich.nu/extra/sp_transcr.html#bitrans
+    license: "Unspecified; freely published."
+    files:
+      - {url: "https://www.voynich.nu/software/bitrans/bitrans.c", path: bitrans.c}
+      - {url: "https://www.voynich.nu/software/bitrans/Bitrans_manual.pdf", path: Bitrans_manual.pdf}
+      - {url: "https://www.voynich.nu/software/bitrans/bitfiles.zip", path: bitfiles.zip}
+
   # ----------------------------------------------------------- format / alphabet specs
   - source_id: ivtff_spec_2_0_2
     name: IVTFF format specification, document issue 2.0.2

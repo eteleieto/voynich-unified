@@ -32,7 +32,7 @@ GLYPH_KINDS = {"char", "rare", "lig", "alt", "unread", "unread_run"}
 
 IVTFF_PAGE_RE = re.compile(r"^<(?P<page>f[0-9]+[rv][0-9]?|fRos)>\s*(?:<!(?P<vars>[^>]*)>)?\s*$")
 IVTFF_LOCUS_RE = re.compile(
-    r"^<(?P<page>f[0-9]+[rv][0-9]?|fRos)\.(?P<num>[0-9]+),(?P<locator>.)(?P<ltype>[A-Z][a-z0-9])"
+    r"^<(?P<page>f[0-9]+[rv][0-9]?|fRos)\.(?P<num>[0-9]+[a-z]?),(?P<locator>.)(?P<ltype>[A-Z][a-z0-9])"
     r"(?:;(?P<tr>[A-Z]))?>"
 )
 EVT_PAGE_RE = re.compile(r"^(?:## )?<(?P<page>f[0-9]+[rv][0-9]?|fRos)>\s*(?:\{(?P<vars>[^}]*)\})?")
@@ -170,6 +170,23 @@ def tokenize_ivtff_text(text: str, problems: list[str] | None = None) -> list[Un
         else:
             units.append(Unit("char", c, c, start=i, end=i + 1)); i += 1
     return units
+
+
+def regroup_sta(units: list[Unit]) -> list[Unit]:
+    """STA1 glyphs are 2-character codes (family letter + member, e.g. 'A1', 'Ba'): merge char pairs."""
+    out: list[Unit] = []
+    i = 0
+    while i < len(units):
+        u = units[i]
+        if (u.kind == "char" and u.value.isupper() and i + 1 < len(units) and units[i + 1].kind == "char"
+                and units[i + 1].start == u.end):
+            v = units[i + 1]
+            out.append(Unit("char", u.raw + v.raw, u.value + v.value, start=u.start, end=v.end))
+            i += 2
+        else:
+            out.append(u)
+            i += 1
+    return out
 
 
 # ----------------------------------------------------------------------------- EVT text
@@ -326,6 +343,8 @@ def parse_ivtff(text: str) -> ParsedFile:
     def emit(mm, raw_line, txt, line_no):
         nonlocal last_locus
         units = tokenize_ivtff_text(txt, problems)
+        if alphabet == "STA1":
+            units = regroup_sta(units)
         for u in units:
             if u.kind == "tag" and "=" in u.value:
                 k, v = u.value.split("=", 1)
